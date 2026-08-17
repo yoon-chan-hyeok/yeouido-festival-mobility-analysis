@@ -4,6 +4,8 @@
 
 [결과 페이지](https://yoon-chan-hyeok.github.io/yeouido-festival-mobility-analysis/) | [분석 방법](docs/METHODOLOGY.md) | [feature 정의](docs/FEATURE_CATALOG.md) | [모델 선택 기준](docs/MODEL_SELECTION.md)
 
+[![Validate public analysis](https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis/actions/workflows/validate.yml/badge.svg)](https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis/actions/workflows/validate.yml)
+
 ![행사일 수요와 정차횟수 변화](outputs/figures/actual_demand_supply_change.svg)
 
 ## 30초 요약
@@ -122,7 +124,7 @@ stress index = 행사일 부담 / 정상 토요일 부담
 
 이 계산은 평상시 수준의 정차횟수를 회복해도 수요가 유지되면 단위 공급당 부담이 남는다는 설명적 시나리오입니다. 실제 버스 대수, 좌석 공급, 최적 배차 또는 정책 시행 효과를 뜻하지 않습니다.
 
-## 직접 구현한 내용
+## 구현 범위
 
 - 하루 약 330만에서 380만 행인 SKT OD와 체류인구 CSV를 순차적으로 읽어 필요한 범위만 집계했습니다.
 - 외부 GIS 패키지 없이 SHP와 DBF를 읽고 EPSG:5186 좌표에서 여의동 정류장을 추출했습니다.
