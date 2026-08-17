@@ -2,7 +2,9 @@
 
 2023년 10월 7일 서울세계불꽃축제를 사례로, 행사 종료 전후 여의도에서 대중교통 수요와 버스 공급이 어떻게 달라졌는지 분석했습니다. SKT OD와 체류인구, 서울시 버스·지하철 30분 이용 자료, TPSS 정차횟수, 행정동 GIS를 시간대별로 결합했습니다.
 
-[결과 페이지](https://yoon-chan-hyeok.github.io/yeouido-festival-mobility-analysis/) | [분석 방법](docs/METHODOLOGY.md) | [feature 정의](docs/FEATURE_CATALOG.md) | [모델 선택 기준](docs/MODEL_SELECTION.md)
+실제 생활에서 겪은 귀가 지연을 데이터로 확인한 개인 프로젝트이며, 교내 데이터 분석 프로젝트 우수상을 받았습니다.
+
+[결과 페이지](https://yoon-chan-hyeok.github.io/yeouido-festival-mobility-analysis/) | [분석 방법](docs/METHODOLOGY.md) | [변수 정의](docs/FEATURE_CATALOG.md) | [모델 선택 기준](docs/MODEL_SELECTION.md)
 
 [![Validate public analysis](https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis/actions/workflows/validate.yml/badge.svg)](https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis/actions/workflows/validate.yml)
 
@@ -10,11 +12,11 @@
 
 ## 30초 요약
 
-- 문제: 행사 종료 후 버스 이용 수요는 늘지만 정류장 정차횟수는 오히려 줄어드는지 확인했습니다.
-- 비교: 행사일과 같은 토요일만 사용했습니다. 추석 연휴 토요일은 기본 비교군에서 제외했습니다.
-- 결과: 18시부터 23시까지 버스 승차 관측치는 평상시보다 142.4% 높았고 TPSS 정차횟수는 37.4% 낮았습니다.
-- 이동시간: 같은 시간대 여의도 출발 버스 OD 가중평균 이동시간은 31.99분 길었습니다.
-- 구현: 원자료 로딩, GIS 범위 추출, 시간 집계, join audit, feature table, 시나리오 계산, SVG 생성, 공개 데이터 재현과 CI 검증을 코드로 만들었습니다.
+- 행사 종료 뒤 버스 이용 수요는 늘었는데 정류장 정차횟수는 오히려 줄었는지 확인했습니다.
+- 행사일과 같은 토요일만 비교하고 추석 연휴 토요일은 기본 비교군에서 뺐습니다.
+- 18시부터 23시까지 버스 승차 관측치는 평상시보다 142.4% 높았고 TPSS 정차횟수는 37.4% 낮았습니다.
+- 같은 시간대 여의도 출발 버스 OD 가중평균 이동시간은 31.99분 길었습니다.
+- 원자료 로딩부터 GIS 범위 추출, 시간 집계, 데이터 결합 검증, 변수표, 시나리오와 결과 그림 생성을 하나의 실행 흐름으로 만들었습니다.
 
 ## 분석 결과
 
@@ -38,9 +40,9 @@ flowchart LR
     A["원자료 정의 확인"] --> B["토요일 비교군 구성"]
     B --> C["행정동 GIS로 여의도 범위 추출"]
     C --> D["정류장명과 정류장 ID 결합 감사"]
-    D --> E["날짜·시간대 feature table"]
+    D --> E["날짜·시간대 변수표"]
     E --> F["수요·공급·이동시간 비교"]
-    F --> G["공급 회복 stress test"]
+    F --> G["공급 회복 가정"]
     E --> H["모델 적용 가능성 점검"]
 ```
 
@@ -71,7 +73,7 @@ OD 행마다 평균 이동시간과 통행량 `od_cnts`가 함께 있습니다. 
 - TPSS 정류장 ID 매칭: 54/59, 91.5%
 - 지하철: 설정한 4개 역 모두 관측
 
-중복 정류장명은 여의도 전체 합계에는 포함했지만 임의 좌표에는 배정하지 않았습니다. 매칭률과 제외 사유는 [join audit](outputs/tables/join_audit.csv)에 기록했습니다.
+중복 정류장명은 여의도 전체 합계에는 포함했지만 임의 좌표에는 배정하지 않았습니다. 결합률과 제외 사유는 [결합 검증표](outputs/tables/join_audit.csv)에 기록했습니다.
 
 ![GIS 분석 범위](outputs/figures/actual_gis_scope.svg)
 
@@ -81,7 +83,7 @@ OD 행마다 평균 이동시간과 통행량 `od_cnts`가 함께 있습니다. 
 
 시간 파서와 30분 파서를 분리하고 버스와 지하철 패널이 `0`, `30` 두 구간을 모두 포함하는지 테스트했습니다. README와 공개 집계본의 수치도 원자료에서 다시 계산했습니다. 수정 내용은 [CORRECTIONS.md](docs/CORRECTIONS.md)에 남겼습니다.
 
-## Feature engineering과 모델 선택
+## 시간대별 변수 구성과 모델 선택
 
 [actual_hourly_feature_table.csv](data/public/actual_hourly_feature_table.csv)는 다음 변수를 시간대별 한 행으로 정리합니다.
 
@@ -90,7 +92,7 @@ OD 행마다 평균 이동시간과 통행량 `od_cnts`가 함께 있습니다. 
 - 버스와 지하철 승차 관측치
 - TPSS 정차횟수
 - 행사일과 정상 토요일의 차이
-- 승차 관측치 대비 정차횟수 stress index
+- 승차 관측치 대비 정차횟수 부담 지수
 
 예측 목표는 여의도 출발 버스 통행의 추가 이동시간으로 설정할 수 있습니다. 다만 모든 데이터 소스가 동시에 존재하는 날짜는 2023-10-07과 2023-10-14 두 날뿐입니다. 시간 행을 무작위로 나누면 같은 날짜가 학습과 평가 데이터에 섞여 성능이 부풀려집니다. 그래서 이 저장소에는 예측 점수를 공개하지 않았습니다.
 
@@ -101,22 +103,22 @@ OD 행마다 평균 이동시간과 통행량 `od_cnts`가 함께 있습니다. 
 | Ridge | 해석 가능한 기준 모델 |
 | Gradient Boosting | 수요와 공급의 비선형 관계를 다루는 주 후보 |
 | Random Forest | 비선형 결과의 방향을 비교하는 보조 모델 |
-| SVR | 표본 확대 후 scaling을 적용한 추가 비교 |
+| SVR | 표본 확대 후 변수의 크기를 맞춰 비교할 추가 모델 |
 
-검증은 시간 행 무작위 분할이 아니라 날짜 전체를 holdout하는 방식으로 진행합니다. 평가 기준은 분 단위 MAE이며 정상 토요일 평균보다 오차가 낮은지 함께 확인합니다. 상세한 판단 근거는 [MODEL_SELECTION.md](docs/MODEL_SELECTION.md)와 [model_readiness.json](outputs/reports/model_readiness.json)에 있습니다.
+검증할 때는 시간 행을 무작위로 나누지 않고 한 날짜 전체를 평가용으로 남깁니다. 평가 기준은 분 단위 MAE이며 정상 토요일 평균보다 오차가 낮은지도 함께 확인합니다. 상세한 판단 근거는 [MODEL_SELECTION.md](docs/MODEL_SELECTION.md)와 [model_readiness.json](outputs/reports/model_readiness.json)에 있습니다.
 
-## 공급 회복 시나리오
+## 공급을 평상시 수준으로 되돌리는 가정
 
 버스 승차 관측치를 수요, TPSS 정차횟수를 공급 지표로 놓고 시간대별 부담을 계산했습니다.
 
 ```text
 수요/공급 부담 = 버스 승차 관측치 / TPSS 정차횟수
-stress index = 행사일 부담 / 정상 토요일 부담
+부담 지수 = 행사일 부담 / 정상 토요일 부담
 ```
 
 18시부터 23시까지 합계 기준 결과는 다음과 같습니다.
 
-- 관측된 행사일 stress index: 3.87배
+- 관측된 행사일 부담 지수: 3.87배
 - 정차횟수를 평상시 수준으로 회복한 뒤: 2.42배
 - 행사일과 평상시의 정차횟수 차이: 3,571.7회 지표
 
@@ -128,12 +130,12 @@ stress index = 행사일 부담 / 정상 토요일 부담
 
 - 하루 약 330만에서 380만 행인 SKT OD와 체류인구 CSV를 순차적으로 읽어 필요한 범위만 집계했습니다.
 - 외부 GIS 패키지 없이 SHP와 DBF를 읽고 EPSG:5186 좌표에서 여의동 정류장을 추출했습니다.
-- 정류장명 결합과 정류장 ID 결합을 분리하고, 결합률과 제외 사유를 표로 만들었습니다.
+- 정류장명 결합과 정류장 ID 결합을 분리하고 결합률과 제외 사유를 표로 만들었습니다.
 - 버스와 지하철 30분 자료를 시간 단위로 합성했습니다.
 - 행사일, 정상 토요일, 단일 검산일을 한 표에서 비교할 수 있게 만들었습니다.
 - 공개 가능한 시간대 집계본과 원자료용 전체 실행 경로를 분리했습니다.
 - SVG 결과 그림과 정적 HTML 요약 페이지를 코드에서 생성했습니다.
-- 단위 테스트와 GitHub Actions로 30분 구간, 날짜 조건, 링크, 개인정보 경로를 검사했습니다.
+- 단위 테스트와 GitHub Actions로 30분 구간, 날짜 조건, 링크와 개인정보 경로를 검사했습니다.
 
 ## 실행 방법
 
