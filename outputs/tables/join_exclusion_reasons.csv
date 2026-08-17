@@ -1,0 +1,20 @@
+﻿source,date,reason,excluded_reference_unit_count,treatment
+bus_30min_to_yeouido_gis,20231007,name absent from Yeouido GIS; duplicate GIS names retained only in area aggregate,8,excluded from exact-key analysis; no forced match
+bus_30min_to_yeouido_gis,20231007,duplicate normalized GIS stop name,691,retained only in Yeouido-area aggregate; excluded from coordinate-level attribution
+bus_30min_to_yeouido_gis,20231014,name absent from Yeouido GIS; duplicate GIS names retained only in area aggregate,8,excluded from exact-key analysis; no forced match
+bus_30min_to_yeouido_gis,20231014,duplicate normalized GIS stop name,927,retained only in Yeouido-area aggregate; excluded from coordinate-level attribution
+bus_30min_to_yeouido_gis,20231021,name absent from Yeouido GIS; duplicate GIS names retained only in area aggregate,8,excluded from exact-key analysis; no forced match
+bus_30min_to_yeouido_gis,20231021,duplicate normalized GIS stop name,938,retained only in Yeouido-area aggregate; excluded from coordinate-level attribution
+bus_30min_to_yeouido_gis,20231028,name absent from Yeouido GIS; duplicate GIS names retained only in area aggregate,8,excluded from exact-key analysis; no forced match
+bus_30min_to_yeouido_gis,20231028,duplicate normalized GIS stop name,893,retained only in Yeouido-area aggregate; excluded from coordinate-level attribution
+subway_30min_station_filter,20231007,station not in configured Yeouido subway station list,0,excluded from exact-key analysis; no forced match
+subway_30min_station_filter,20231014,station not in configured Yeouido subway station list,0,excluded from exact-key analysis; no forced match
+subway_30min_station_filter,20231021,station not in configured Yeouido subway station list,0,excluded from exact-key analysis; no forced match
+subway_30min_station_filter,20231028,station not in configured Yeouido subway station list,0,excluded from exact-key analysis; no forced match
+tpss_to_yeouido_gis,20231007,station ID outside exact Yeouido GIS stop-ID set,5,excluded from exact-key analysis; no forced match
+tpss_to_yeouido_gis,20231014,station ID outside exact Yeouido GIS stop-ID set,5,excluded from exact-key analysis; no forced match
+tpss_to_yeouido_gis,20231021,station ID outside exact Yeouido GIS stop-ID set,5,excluded from exact-key analysis; no forced match
+tpss_to_yeouido_gis,20231028,station ID outside exact Yeouido GIS stop-ID set,5,excluded from exact-key analysis; no forced match
+gis_bus_stops_within_yeouido_polygon,static,missing coordinates or outside Yeouido administrative polygon,11121,excluded from exact-key analysis; no forced match
+gis_bus_stops_within_yeouido_polygon,static,duplicate normalized GIS stop name,12,retained only in Yeouido-area aggregate; excluded from coordinate-level attribution
+kikmix_yeouido_code_lookup,20230701,"non-Yeouido code-reference rows; this is a lookup audit, not a failed join",0,excluded from exact-key analysis; no forced match

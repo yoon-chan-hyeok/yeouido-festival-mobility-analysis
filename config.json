@@ -1,0 +1,20 @@
+{
+  "event_date": "20231007",
+  "normal_saturdays_primary": ["20230902", "20230909", "20230916", "20230923", "20231014"],
+  "normal_saturdays_sensitivity": ["20230902", "20230909", "20230916", "20230923", "20230930", "20231014"],
+  "october_normal_saturdays": ["20231014", "20231021", "20231028"],
+  "strict_common_control_date": "20231014",
+  "excluded_dates": {
+    "20230930": "Chuseok holiday-period sensitivity date; excluded from the primary control group",
+    "20231007": "Event date; never included in the normal baseline"
+  },
+  "yeouido_hdong_code": "1156054000",
+  "seoul_code_prefix": "11",
+  "event_impact_hours": [18, 19, 20, 21, 22, 23],
+  "subway_station_names": ["국회의사당", "여의도", "여의나루", "샛강"],
+  "modal_codes": {
+    "car": [0],
+    "bus": [1],
+    "all": null
+  }
+}

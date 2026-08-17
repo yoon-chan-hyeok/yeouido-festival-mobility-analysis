@@ -1,0 +1,15 @@
+﻿source,date,join_key,source_rows,matched_rows,matched_row_rate,source_unique_units,matched_unique_units,matched_unique_rate,target_reference_units,observed_reference_units,reference_coverage_rate,ambiguous_matched_rows,excluded_reason,observed_route_ids
+bus_30min_to_yeouido_gis,20231007,normalized station name,458160,1527,0.0033328968046097435,15511,54,0.003481400296563729,40,32,0.8,691,name absent from Yeouido GIS; duplicate GIS names retained only in area aggregate,
+bus_30min_to_yeouido_gis,20231014,normalized station name,457441,1772,0.0038737236058857863,15555,53,0.0034072645451623273,40,32,0.8,927,name absent from Yeouido GIS; duplicate GIS names retained only in area aggregate,
+bus_30min_to_yeouido_gis,20231021,normalized station name,458863,1831,0.003990297757718535,15524,57,0.0036717340891522805,40,32,0.8,938,name absent from Yeouido GIS; duplicate GIS names retained only in area aggregate,
+bus_30min_to_yeouido_gis,20231028,normalized station name,460115,1733,0.003766449691924845,15568,57,0.003661356628982528,40,32,0.8,893,name absent from Yeouido GIS; duplicate GIS names retained only in area aggregate,
+subway_30min_station_filter,20231007,configured normalized station name,12923,225,0.017410817921535246,4,4,1.0,4,4,1.0,0,station not in configured Yeouido subway station list,
+subway_30min_station_filter,20231014,configured normalized station name,12913,230,0.017811507782854487,4,4,1.0,4,4,1.0,0,station not in configured Yeouido subway station list,
+subway_30min_station_filter,20231021,configured normalized station name,12904,229,0.017746435213887166,4,4,1.0,4,4,1.0,0,station not in configured Yeouido subway station list,
+subway_30min_station_filter,20231028,configured normalized station name,12912,229,0.01773543990086741,4,4,1.0,4,4,1.0,0,station not in configured Yeouido subway station list,
+tpss_to_yeouido_gis,20231007,GIS STN_IDN == TPSS station ID,81102,378,0.004660797514241326,59,54,0.9152542372881356,59,54,0.9152542372881356,0,station ID outside exact Yeouido GIS stop-ID set,50
+tpss_to_yeouido_gis,20231014,GIS STN_IDN == TPSS station ID,81148,378,0.0046581554690195695,59,54,0.9152542372881356,59,54,0.9152542372881356,0,station ID outside exact Yeouido GIS stop-ID set,50
+tpss_to_yeouido_gis,20231021,GIS STN_IDN == TPSS station ID,81079,378,0.004662119661071301,59,54,0.9152542372881356,59,54,0.9152542372881356,0,station ID outside exact Yeouido GIS stop-ID set,50
+tpss_to_yeouido_gis,20231028,GIS STN_IDN == TPSS station ID,81113,378,0.004660165448201891,59,54,0.9152542372881356,59,54,0.9152542372881356,0,station ID outside exact Yeouido GIS stop-ID set,50
+gis_bus_stops_within_yeouido_polygon,static,point-in-polygon EPSG:5186,11180,59,0.005277280858676208,11180,59,,11180,59,,12,missing coordinates or outside Yeouido administrative polygon,
+kikmix_yeouido_code_lookup,20230701,administrative dong code 1156054000,21777,1,4.592000734720118e-05,21777,1,1.0,1,1,1.0,0,"non-Yeouido code-reference rows; this is a lookup audit, not a failed join",

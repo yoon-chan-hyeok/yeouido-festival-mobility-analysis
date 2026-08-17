@@ -1,0 +1,16 @@
+{
+  "status": "descriptive stress test; not optimization, dispatch recommendation, or causal policy effect",
+  "window": "18:00-23:59",
+  "event_boardings_proxy": 25626.0,
+  "normal_boardings_proxy": 10570.333333333334,
+  "event_stop_count": 5973.0,
+  "normal_stop_count": 9544.666666666666,
+  "supply_gap_to_normal": 3571.666666666666,
+  "event_boardings_per_stop_count": 4.290306378704169,
+  "normal_boardings_per_stop_count": 1.1074596633372915,
+  "current_stress_index": 3.8740069013217857,
+  "stress_index_after_normal_supply_restore": 2.4243322506385794,
+  "stop_count_index_required_for_normal_load": 23139.443221595026,
+  "additional_stop_count_index_for_normal_load": 17166.443221595026,
+  "interpretation": "Restoring the TPSS stop-count index to the normal Saturday level does not restore the normal per-stop demand burden when demand remains elevated."
+}

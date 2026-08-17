@@ -1,0 +1,75 @@
+{
+  "status": "predictive benchmark withheld because complete cross-source date groups are insufficient",
+  "available_dates_by_source": {
+    "od": [
+      "20230902",
+      "20230909",
+      "20230916",
+      "20230923",
+      "20230930",
+      "20231007",
+      "20231014"
+    ],
+    "stay": [
+      "20230902",
+      "20230909",
+      "20230916",
+      "20230923",
+      "20230930",
+      "20231007",
+      "20231014"
+    ],
+    "bus": [
+      "20231007",
+      "20231014",
+      "20231021",
+      "20231028"
+    ],
+    "subway": [
+      "20231007",
+      "20231014",
+      "20231021",
+      "20231028"
+    ],
+    "tpss": [
+      "20231007",
+      "20231014",
+      "20231021",
+      "20231028"
+    ]
+  },
+  "complete_cross_source_dates": [
+    "20231007",
+    "20231014"
+  ],
+  "complete_cross_source_date_count": 2,
+  "candidate_target": "Yeouido departure-bus travel-time difference in minutes",
+  "candidate_features": [
+    "departure bus OD count",
+    "stay population",
+    "bus boarding proxy",
+    "subway boarding proxy",
+    "TPSS stop count",
+    "hour and event-window flag"
+  ],
+  "selection_plan": [
+    {
+      "model": "Ridge",
+      "role": "interpretable regularized baseline"
+    },
+    {
+      "model": "Gradient Boosting",
+      "role": "primary nonlinear tabular candidate"
+    },
+    {
+      "model": "Random Forest",
+      "role": "robustness comparison for nonlinear interactions"
+    },
+    {
+      "model": "SVR",
+      "role": "scaled-feature comparison when the sample grows"
+    }
+  ],
+  "validation_plan": "group observations by date and hold out entire dates; never use a random row split",
+  "primary_metric": "MAE in minutes, compared with a normal-Saturday baseline"
+}

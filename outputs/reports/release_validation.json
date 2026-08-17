@@ -1,0 +1,80 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "check": "all configured controls are Saturday",
+      "passed": true,
+      "detail": "{'20230902': 'Saturday', '20230909': 'Saturday', '20230916': 'Saturday', '20230923': 'Saturday', '20230930': 'Saturday', '20231014': 'Saturday', '20231021': 'Saturday', '20231028': 'Saturday'}"
+    },
+    {
+      "check": "event absent from controls",
+      "passed": true,
+      "detail": "20231007"
+    },
+    {
+      "check": "holiday Saturday excluded from primary",
+      "passed": true,
+      "detail": "['20230902', '20230909', '20230916', '20230923', '20231014']"
+    },
+    {
+      "check": "required release files exist",
+      "passed": true,
+      "detail": "[]"
+    },
+    {
+      "check": "public results labeled actual",
+      "passed": true,
+      "detail": "['actual_bus_boarding_event_vs_saturday.csv', 'actual_hourly_feature_table.csv', 'actual_od_event_vs_saturday.csv', 'actual_stay_event_vs_saturday.csv', 'actual_subway_boarding_event_vs_saturday.csv', 'actual_supply_recovery_stress_test.csv', 'actual_tpss_event_vs_saturday.csv']"
+    },
+    {
+      "check": "README has no old Sunday controls",
+      "passed": true,
+      "detail": "['2023-09-03', '2023-09-10', '2023-09-17', '2023-09-24', '2023-10-01', '2023-10-15']"
+    },
+    {
+      "check": "supply restore remains explicitly descriptive",
+      "passed": true,
+      "detail": "descriptive stress test; not optimization, dispatch recommendation, or causal policy effect"
+    },
+    {
+      "check": "README headline values match recalculated summary",
+      "passed": true,
+      "detail": "OD duration difference and stress-test headline values"
+    },
+    {
+      "check": "bus panel keeps both half-hour bins",
+      "passed": true,
+      "detail": "expected 0 and 30"
+    },
+    {
+      "check": "subway panel keeps both half-hour bins",
+      "passed": true,
+      "detail": "expected 0 and 30"
+    },
+    {
+      "check": "predictive benchmark is withheld when date groups are insufficient",
+      "passed": true,
+      "detail": "['20231007', '20231014']"
+    },
+    {
+      "check": "README and portfolio local links resolve",
+      "passed": true,
+      "detail": "[]"
+    },
+    {
+      "check": "removed evaluation claims are absent",
+      "passed": true,
+      "detail": "[]"
+    },
+    {
+      "check": "personal absolute paths are absent",
+      "passed": true,
+      "detail": "[]"
+    },
+    {
+      "check": "legacy presentation headline values are absent",
+      "passed": true,
+      "detail": "[]"
+    }
+  ]
+}

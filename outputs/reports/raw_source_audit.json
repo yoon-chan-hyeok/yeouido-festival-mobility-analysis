@@ -1,0 +1,115 @@
+{
+  "od": {
+    "files": [
+      {
+        "date": "20230902",
+        "source_file": "raw_data\\sat_data\\od_20230902_1.csv",
+        "source_rows": 3632460,
+        "valid_rows": 3632460,
+        "scope_rows": 6515,
+        "scope_rate": 0.0017935503763289891
+      },
+      {
+        "date": "20230909",
+        "source_file": "raw_data\\sat_data\\od_20230909_1.csv",
+        "source_rows": 3709417,
+        "valid_rows": 3709417,
+        "scope_rows": 5221,
+        "scope_rate": 0.0014074988064162104
+      },
+      {
+        "date": "20230916",
+        "source_file": "raw_data\\sat_data\\od_20230916_1.csv",
+        "source_rows": 3449333,
+        "valid_rows": 3449333,
+        "scope_rows": 5417,
+        "scope_rate": 0.0015704485475887657
+      },
+      {
+        "date": "20230923",
+        "source_file": "raw_data\\sat_data\\od_20230923_1.csv",
+        "source_rows": 3689888,
+        "valid_rows": 3689888,
+        "scope_rows": 5890,
+        "scope_rate": 0.0015962544120580353
+      },
+      {
+        "date": "20230930",
+        "source_file": "raw_data\\sat_data\\od_20230930_1.csv",
+        "source_rows": 3364250,
+        "valid_rows": 3364250,
+        "scope_rows": 2950,
+        "scope_rate": 0.0008768670580367095
+      },
+      {
+        "date": "20231014",
+        "source_file": "raw_data\\sat_data\\od_20231014_1.csv",
+        "source_rows": 3539052,
+        "valid_rows": 3539052,
+        "scope_rows": 4669,
+        "scope_rate": 0.0013192798523446391
+      },
+      {
+        "date": "20231007",
+        "source_file": "raw_data\\sat_data\\od_20231007_1.csv",
+        "source_rows": 3553369,
+        "valid_rows": 3553369,
+        "scope_rows": 14177,
+        "scope_rate": 0.003989734812230309
+      }
+    ]
+  },
+  "stay": {
+    "files": [
+      {
+        "date": "20230902",
+        "source_file": "raw_data\\stay_sat_data\\stay_20230902_1.csv",
+        "source_rows": 3844404,
+        "matched_rows": 1425,
+        "scope_rate": 0.00037066863940418335
+      },
+      {
+        "date": "20230909",
+        "source_file": "raw_data\\stay_sat_data\\stay_20230909_1.csv",
+        "source_rows": 3858975,
+        "matched_rows": 1425,
+        "scope_rate": 0.00036926904164966086
+      },
+      {
+        "date": "20230916",
+        "source_file": "raw_data\\stay_sat_data\\stay_20230916_1.csv",
+        "source_rows": 3808029,
+        "matched_rows": 1408,
+        "scope_rate": 0.00036974508334889256
+      },
+      {
+        "date": "20230923",
+        "source_file": "raw_data\\stay_sat_data\\stay_20230923_1.csv",
+        "source_rows": 3833791,
+        "matched_rows": 1423,
+        "scope_rate": 0.00037117307646660966
+      },
+      {
+        "date": "20230930",
+        "source_file": "raw_data\\stay_sat_data\\stay_20230930_1.csv",
+        "source_rows": 3806630,
+        "matched_rows": 1392,
+        "scope_rate": 0.00036567777798209966
+      },
+      {
+        "date": "20231014",
+        "source_file": "raw_data\\stay_sat_data\\stay_20231014_1.csv",
+        "source_rows": 3831907,
+        "matched_rows": 1433,
+        "scope_rate": 0.00037396523454248757
+      },
+      {
+        "date": "20231007",
+        "source_file": "raw_data\\stay_sat_data\\stay_20231007_1.csv",
+        "source_rows": 3841094,
+        "matched_rows": 1448,
+        "scope_rate": 0.00037697593446033863
+      }
+    ]
+  }
+}

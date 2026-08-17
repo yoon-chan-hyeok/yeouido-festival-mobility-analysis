@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="520" viewBox="0 0 1000 520">
+<rect width="100%" height="100%" fill="#fffdf8"/>
+<text x="500.0" y="34" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="22" font-weight="700">OD-count-weighted bus travel time: Yeouido departures to Seoul</text>
+<rect x="671.7" y="65" width="293.3" height="385" fill="#f59e0b" opacity="0.10"/>
+<line x1="85" y1="450.0" x2="965" y2="450.0" stroke="#d6d3d1"/>
+<text x="75" y="454.0" text-anchor="end" font-family="Segoe UI" font-size="12">13.3</text>
+<line x1="85" y1="373.0" x2="965" y2="373.0" stroke="#d6d3d1"/>
+<text x="75" y="377.0" text-anchor="end" font-family="Segoe UI" font-size="12">27.5</text>
+<line x1="85" y1="296.0" x2="965" y2="296.0" stroke="#d6d3d1"/>
+<text x="75" y="300.0" text-anchor="end" font-family="Segoe UI" font-size="12">41.7</text>
+<line x1="85" y1="219.0" x2="965" y2="219.0" stroke="#d6d3d1"/>
+<text x="75" y="223.0" text-anchor="end" font-family="Segoe UI" font-size="12">55.9</text>
+<line x1="85" y1="142.0" x2="965" y2="142.0" stroke="#d6d3d1"/>
+<text x="75" y="146.0" text-anchor="end" font-family="Segoe UI" font-size="12">70.1</text>
+<line x1="85" y1="65.0" x2="965" y2="65.0" stroke="#d6d3d1"/>
+<text x="75" y="69.0" text-anchor="end" font-family="Segoe UI" font-size="12">84.3</text>
+<text x="85.0" y="475" text-anchor="middle" font-family="Segoe UI" font-size="12">8</text>
+<text x="231.7" y="475" text-anchor="middle" font-family="Segoe UI" font-size="12">10</text>
+<text x="378.3" y="475" text-anchor="middle" font-family="Segoe UI" font-size="12">13</text>
+<text x="525.0" y="475" text-anchor="middle" font-family="Segoe UI" font-size="12">16</text>
+<text x="671.7" y="475" text-anchor="middle" font-family="Segoe UI" font-size="12">18</text>
+<text x="818.3" y="475" text-anchor="middle" font-family="Segoe UI" font-size="12">20</text>
+<text x="965.0" y="475" text-anchor="middle" font-family="Segoe UI" font-size="12">23</text>
+<polyline points="85.0,423.4 143.7,406.7 202.3,413.8 261.0,392.3 319.7,402.9 378.3,378.2 437.0,348.2 495.7,358.5 554.3,316.8 613.0,193.4 671.7,225.9 730.3,91.6 789.0,158.1 847.7,198.6 906.3,321.6 965.0,399.9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="85.0" cy="423.4" r="3.2" fill="#2563eb"/>
+<circle cx="143.7" cy="406.7" r="3.2" fill="#2563eb"/>
+<circle cx="202.3" cy="413.8" r="3.2" fill="#2563eb"/>
+<circle cx="261.0" cy="392.3" r="3.2" fill="#2563eb"/>
+<circle cx="319.7" cy="402.9" r="3.2" fill="#2563eb"/>
+<circle cx="378.3" cy="378.2" r="3.2" fill="#2563eb"/>
+<circle cx="437.0" cy="348.2" r="3.2" fill="#2563eb"/>
+<circle cx="495.7" cy="358.5" r="3.2" fill="#2563eb"/>
+<circle cx="554.3" cy="316.8" r="3.2" fill="#2563eb"/>
+<circle cx="613.0" cy="193.4" r="3.2" fill="#2563eb"/>
+<circle cx="671.7" cy="225.9" r="3.2" fill="#2563eb"/>
+<circle cx="730.3" cy="91.6" r="3.2" fill="#2563eb"/>
+<circle cx="789.0" cy="158.1" r="3.2" fill="#2563eb"/>
+<circle cx="847.7" cy="198.6" r="3.2" fill="#2563eb"/>
+<circle cx="906.3" cy="321.6" r="3.2" fill="#2563eb"/>
+<circle cx="965.0" cy="399.9" r="3.2" fill="#2563eb"/>
+<polyline points="85.0,354.3 143.7,390.6 202.3,376.7 261.0,297.0 319.7,342.3 378.3,333.7 437.0,264.5 495.7,313.1 554.3,316.2 613.0,271.1 671.7,341.5 730.3,332.3 789.0,350.9 847.7,347.2 906.3,365.8 965.0,400.4" fill="none" stroke="#dc2626" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="85.0" cy="354.3" r="3.2" fill="#dc2626"/>
+<circle cx="143.7" cy="390.6" r="3.2" fill="#dc2626"/>
+<circle cx="202.3" cy="376.7" r="3.2" fill="#dc2626"/>
+<circle cx="261.0" cy="297.0" r="3.2" fill="#dc2626"/>
+<circle cx="319.7" cy="342.3" r="3.2" fill="#dc2626"/>
+<circle cx="378.3" cy="333.7" r="3.2" fill="#dc2626"/>
+<circle cx="437.0" cy="264.5" r="3.2" fill="#dc2626"/>
+<circle cx="495.7" cy="313.1" r="3.2" fill="#dc2626"/>
+<circle cx="554.3" cy="316.2" r="3.2" fill="#dc2626"/>
+<circle cx="613.0" cy="271.1" r="3.2" fill="#dc2626"/>
+<circle cx="671.7" cy="341.5" r="3.2" fill="#dc2626"/>
+<circle cx="730.3" cy="332.3" r="3.2" fill="#dc2626"/>
+<circle cx="789.0" cy="350.9" r="3.2" fill="#dc2626"/>
+<circle cx="847.7" cy="347.2" r="3.2" fill="#dc2626"/>
+<circle cx="906.3" cy="365.8" r="3.2" fill="#dc2626"/>
+<circle cx="965.0" cy="400.4" r="3.2" fill="#dc2626"/>
+<line x1="85" y1="50" x2="109" y2="50" stroke="#2563eb" stroke-width="4"/>
+<text x="116" y="54" font-family="Segoe UI" font-size="13">Event Saturday</text>
+<line x1="305" y1="50" x2="329" y2="50" stroke="#dc2626" stroke-width="4"/>
+<text x="336" y="54" font-family="Segoe UI" font-size="13">Normal Saturday pooled</text>
+<text x="500.0" y="505" text-anchor="middle" font-family="Segoe UI" font-size="14">Hour</text>
+<text x="20" y="260.0" text-anchor="middle" transform="rotate(-90 20 260.0)" font-family="Segoe UI" font-size="14">Minutes</text>
+</svg>
