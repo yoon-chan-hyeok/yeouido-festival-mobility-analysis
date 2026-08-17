@@ -739,7 +739,7 @@ def write_portfolio_page(summary: dict, scenario: dict) -> None:
   <h2>GIS 범위와 결합 감사</h2><div class="card"><img src="outputs/figures/actual_gis_scope.svg" alt="여의도 GIS 분석 범위"></div>
   <p>행정동 경계 내부의 2019년 버스정류장 59개를 추출했습니다. 버스 30분 자료는 정규화한 정류장명, TPSS는 GIS 정류장 ID의 정확 일치만 사용했습니다. 누락과 중복은 <a href="outputs/tables/join_audit.csv">join audit</a>에 남겼습니다.</p>
   <h2>재현</h2><p><code>python run_all.py</code> 이후 <code>python validate_release.py</code>를 실행합니다. 원시자료는 라이선스와 개인정보 고려로 포함하지 않았고, 공개 폴더에는 날짜·시간 집계본만 제공합니다.</p>
-  <p><a href="README.md">전체 README</a> · <a href="docs/METHODOLOGY.md">방법론</a> · <a href="docs/MODEL_SELECTION.md">모델 선택 기준</a> · <a href="CLAIM_EVIDENCE_MAP.md">주장-근거표</a></p>
+  <p><a href="https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis">GitHub 저장소</a> · <a href="https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis/blob/main/docs/METHODOLOGY.md">방법론</a> · <a href="https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis/blob/main/docs/MODEL_SELECTION.md">모델 선택 기준</a></p>
 </main></body></html>"""
     (RELEASE_ROOT / "index.html").write_text(html_text, encoding="utf-8")
 

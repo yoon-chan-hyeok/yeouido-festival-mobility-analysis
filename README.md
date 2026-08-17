@@ -2,7 +2,7 @@
 
 2023년 10월 7일 서울세계불꽃축제를 사례로, 행사 종료 전후 여의도에서 대중교통 수요와 버스 공급이 어떻게 달라졌는지 분석했습니다. SKT OD와 체류인구, 서울시 버스·지하철 30분 이용 자료, TPSS 정차횟수, 행정동 GIS를 시간대별로 결합했습니다.
 
-[결과 페이지](index.html) | [분석 방법](docs/METHODOLOGY.md) | [feature 정의](docs/FEATURE_CATALOG.md) | [모델 선택 기준](docs/MODEL_SELECTION.md)
+[결과 페이지](https://yoon-chan-hyeok.github.io/yeouido-festival-mobility-analysis/) | [분석 방법](docs/METHODOLOGY.md) | [feature 정의](docs/FEATURE_CATALOG.md) | [모델 선택 기준](docs/MODEL_SELECTION.md)
 
 ![행사일 수요와 정차횟수 변화](outputs/figures/actual_demand_supply_change.svg)
 
