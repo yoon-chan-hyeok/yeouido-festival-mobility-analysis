@@ -1,34 +1,42 @@
 <div align="center">
 
-# 여의도 불꽃축제 교통 수요와 공급 분석
+# Yeouido Festival Mobility Analysis
 
-**이동 수요, 대중교통 이용과 버스 정차횟수를 함께 놓고 행사 뒤 귀가 지연을 살폈습니다.**
+**Multi-source mobility data를 결합해 행사 시간대의 demand surge, transit usage와 bus supply change를 함께 분석했습니다.**
 
 [결과 페이지](https://yoon-chan-hyeok.github.io/yeouido-festival-mobility-analysis/) · [분석 방법](docs/METHODOLOGY.md) · [변수 정의](docs/FEATURE_CATALOG.md) · [모델 선택 기준](docs/MODEL_SELECTION.md)
 
 [![Validate public analysis](https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis/actions/workflows/validate.yml/badge.svg)](https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis/actions/workflows/validate.yml)
 
-[문제](#왜-이-문제를-다뤘나) · [방법](#데이터를-어떻게-비교했나) · [결과](#행사-종료-전후의-변화) · [실행](#실행-방법) · [한계](#해석-범위)
+[Problem](#1-problem-and-analytical-scope) · [Design](#2-design-rationale) · [Method](#3-method-multi-source-data-integration) · [Results](#4-results-demand-supply-and-travel-time) · [Audit](#5-data-quality-audit) · [Quick start](#8-quick-start)
 
 </div>
 
-## 왜 이 문제를 다뤘나
+## 1. Problem and analytical scope
 
 2023년 10월 7일 서울세계불꽃축제를 보고 돌아오는 길에 평소보다 귀가 시간이 오래 걸렸습니다. 방문객이 많았다는 설명만으로는 버스와 지하철에 수요가 얼마나 몰렸는지, 같은 시간에 공급은 충분했는지 알기 어려웠습니다.
 
-이 프로젝트에서는 SKT OD와 체류인구, 서울시 버스·지하철 30분 이용 자료, TPSS 정차횟수와 행정동 GIS를 시간대별로 결합했습니다. 행사일의 수요 증가와 버스 공급 변화를 같은 표에서 비교하고, 실제로 겪은 지연을 데이터로 설명해 보려 했습니다. 개인 프로젝트로 진행했으며 교내 데이터 분석 프로젝트 우수상을 받았습니다.
+이 프로젝트에서는 SKT OD와 체류인구, 서울시 버스·지하철 30분 이용 자료, TPSS 정차횟수와 행정동 GIS를 시간대별로 결합했습니다. 행사일의 demand surge와 bus supply change를 같은 panel에서 비교하고, 실제로 겪은 지연을 데이터로 설명해 보려 했습니다. 개인 프로젝트로 진행했으며 교내 데이터 분석 프로젝트 우수상을 받았습니다.
 
-## 30초 요약
+| 분석 조건 | 설정 |
+|---|---|
+| Event | 2023-10-07 서울세계불꽃축제 |
+| Spatial scope | 여의동 행정경계 내부와 여의도 출발 bus OD |
+| Event window | 행사 종료 전후인 18시부터 23시 |
+| Control | 같은 요일인 정상 토요일, 추석 연휴는 sensitivity analysis로 분리 |
+| Analysis type | Descriptive comparison, data-quality audit와 supply recovery stress test |
+
+## 2. Design rationale
 
 - 행사일과 평상시를 비교할 때 같은 토요일만 사용하고 추석 연휴 토요일은 기본 비교군에서 뺐습니다.
 - 18시부터 23시까지 버스 승차 관측치는 평상시보다 142.4% 높았고 TPSS 정차횟수는 37.4% 낮았습니다.
 - 같은 시간대 여의도 출발 버스 OD의 통행량 가중평균 이동시간은 31.99분 길었습니다.
 - 정류장명과 ID 결합률, GIS 범위와 30분 집계 누락을 따로 점검했습니다.
-- 모든 데이터가 함께 있는 날짜가 두 날뿐이어서 예측 성능은 공개하지 않고 기술통계와 설명적 시나리오까지만 제시했습니다.
+- 모든 data source가 함께 있는 날짜가 두 날뿐이어서 predictive score는 공개하지 않고 descriptive statistics와 explanatory scenario까지만 제시했습니다.
 
 ![행사일 수요와 정차횟수 변화](outputs/figures/actual_demand_supply_change.svg)
 
-## 데이터를 어떻게 비교했나
+## 3. Method: multi-source data integration
 
 | 자료 | 분석에 사용한 값 |
 |---|---|
@@ -56,7 +64,7 @@ flowchart LR
 
 분석 시간은 행사 종료 전후인 18시부터 23시입니다. 행사 운영 시간을 보고 정한 구간이며 데이터에서 자동으로 찾은 시간은 아닙니다.
 
-## 행사 종료 전후의 변화
+## 4. Results: demand, supply and travel time
 
 | 지표 | 행사일 | 정상 토요일 평균 | 차이 |
 |---|---:|---:|---:|
@@ -69,9 +77,14 @@ flowchart LR
 
 버스와 지하철 수치는 1회용 카드 이용 관측치입니다. 전체 승객수로 환산하지 않고 같은 자료 안에서 행사일과 평상시의 차이만 비교했습니다. 체류인구 합계도 고유 방문자 수가 아니라 시간대별 관측치의 합입니다.
 
+<p align="center">
+  <img src="outputs/figures/actual_od_bus_duration.svg" width="49%" alt="여의도 출발 버스 OD 가중평균 이동시간" />
+  <img src="outputs/figures/actual_bus_boardings.svg" width="49%" alt="여의도 버스 승차 관측치" />
+</p>
+
 행사일에는 이동과 대중교통 이용 수요가 크게 늘었지만 버스 정차횟수는 줄었습니다. 이 결과만으로 개별 원인이나 정책 효과를 확정할 수는 없습니다. 다만 귀가 지연을 수요 증가 하나로만 설명하기보다, 같은 시간대의 공급 변화도 함께 봐야 한다는 점은 확인할 수 있었습니다.
 
-## 분석을 다시 검증한 과정
+## 5. Data quality audit
 
 ### 비교 날짜를 바로잡았습니다
 
@@ -106,7 +119,7 @@ OD 행마다 평균 이동시간과 통행량 `od_cnts`가 함께 있습니다. 
 
 시와 30분 값을 읽는 함수를 분리하고 버스와 지하철 자료에 `0`, `30` 구간이 모두 들어오는지 테스트했습니다. 공개 수치도 원자료에서 다시 계산했으며 수정 과정은 [CORRECTIONS.md](docs/CORRECTIONS.md)에 기록했습니다.
 
-## 예측 점수를 공개하지 않은 이유
+## 6. Model readiness: predictive score를 공개하지 않은 이유
 
 [actual_hourly_feature_table.csv](data/public/actual_hourly_feature_table.csv)에는 통행량, 이동시간, 체류인구, 버스·지하철 승차 관측치와 정차횟수를 시간대별로 모았습니다. 이 표를 이용하면 추가 이동시간을 예측하는 모델을 만들 수 있습니다.
 
@@ -114,7 +127,7 @@ OD 행마다 평균 이동시간과 통행량 `od_cnts`가 함께 있습니다. 
 
 날짜가 더 확보되면 한 날짜 전체를 평가용으로 남기고, 정상 토요일 평균과 Ridge를 기준선으로 둔 뒤 비선형 모델을 비교할 계획입니다. 판단 근거와 완료 조건은 [MODEL_SELECTION.md](docs/MODEL_SELECTION.md)와 [model_readiness.json](outputs/reports/model_readiness.json)에 정리했습니다.
 
-## 버스 공급을 평상시 수준으로 되돌린다면
+## 7. Scenario analysis: normal-supply recovery
 
 버스 승차 관측치를 수요, TPSS 정차횟수를 공급 지표로 두고 시간대별 부담을 계산했습니다.
 
@@ -127,7 +140,7 @@ OD 행마다 평균 이동시간과 통행량 `od_cnts`가 함께 있습니다. 
 
 ![공급 회복 시나리오](outputs/figures/actual_supply_recovery_stress_test.svg)
 
-## 실행 방법
+## 8. Quick start
 
 Python 3.10 이상이 필요합니다. 공개 집계본으로 결과 표와 그림을 다시 만드는 데는 외부 패키지가 필요하지 않습니다.
 
@@ -145,7 +158,7 @@ python run_all.py
 Remove-Item Env:FORCE_REBUILD
 ```
 
-## 저장소 구성
+## 9. Repository structure
 
 ```text
 src/                    원자료 로딩, 공간 추출, 결합, 분석과 시각화
@@ -161,7 +174,7 @@ run_all.py              원자료 기반 전체 실행
 validate_release.py     공개 전 일관성 검사
 ```
 
-## 해석 범위
+## 10. Limitations
 
 - 행사일과 정상 토요일을 비교한 기술통계입니다. 인과효과로 해석하지 않습니다.
 - 도로통제, 우회와 무정차의 영향을 나눠 볼 운영자료는 결합하지 않았습니다.
