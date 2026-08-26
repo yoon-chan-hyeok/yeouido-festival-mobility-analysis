@@ -32,6 +32,16 @@
       "detail": "['2023-09-03', '2023-09-10', '2023-09-17', '2023-09-24', '2023-10-01', '2023-10-15']"
     },
     {
+      "check": "README has no unverified award claim",
+      "passed": true,
+      "detail": "award evidence not available"
+    },
+    {
+      "check": "README states the corrected local common window",
+      "passed": true,
+      "detail": "expected 2023-10-02 through 2023-10-15, 14 days"
+    },
+    {
       "check": "supply restore remains explicitly descriptive",
       "passed": true,
       "detail": "descriptive stress test; not optimization, dispatch recommendation, or causal policy effect"

@@ -43,6 +43,12 @@ def main() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     forbidden_sunday_dates = ["2023-09-03", "2023-09-10", "2023-09-17", "2023-09-24", "2023-10-01", "2023-10-15"]
     check("README has no old Sunday controls", not any(date in readme for date in forbidden_sunday_dates), str(forbidden_sunday_dates))
+    check("README has no unverified award claim", "우수상" not in readme and "수상 경력" not in readme, "award evidence not available")
+    check(
+        "README states the corrected local common window",
+        "공통기간은 2023-10-02부터 10-15까지 14일" in readme,
+        "expected 2023-10-02 through 2023-10-15, 14 days",
+    )
 
     scenario = summary["supply_recovery_stress_test"]
     check(
