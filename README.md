@@ -2,7 +2,7 @@
 
 # Yeouido Festival Mobility Analysis
 
-**Multi-source mobility data를 결합해 행사 시간대의 demand surge, transit usage와 bus supply change를 함께 분석했습니다.**
+**여의도 불꽃축제 뒤 길어진 귀가 시간을 수요 증가와 대중교통 운행 변화로 나눠 분석했습니다.**
 
 [결과 페이지](https://yoon-chan-hyeok.github.io/yeouido-festival-mobility-analysis/) · [분석 방법](docs/METHODOLOGY.md) · [데이터 출처](docs/DATA_PROVENANCE.md) · [변수 정의](docs/FEATURE_CATALOG.md) · [모델 선택 기준](docs/MODEL_SELECTION.md)
 
@@ -21,7 +21,7 @@
 
 2023년 10월 7일 서울세계불꽃축제를 보고 돌아오는 길에 평소보다 귀가 시간이 오래 걸렸습니다. 방문객이 많았다는 설명만으로는 버스와 지하철에 수요가 얼마나 몰렸는지, 같은 시간에 공급은 충분했는지 알기 어려웠습니다.
 
-이 프로젝트에서는 SKT OD와 체류인구, 서울시 버스·지하철 30분 이용 자료, TPSS 정차횟수와 행정동 GIS를 시간대별로 결합했습니다. 행사일의 demand surge와 bus supply change를 같은 panel에서 비교하고, 실제로 겪은 지연을 데이터로 설명해 보려 했습니다. 서울시립대학교 교통공학과 졸업작품으로 진행했습니다.
+SKT OD와 체류인구, 서울시 버스·지하철 30분 이용 자료, TPSS 정차횟수와 행정동 GIS를 시간대별로 결합했습니다. 행사 뒤 수요가 얼마나 늘었는지뿐 아니라, 같은 시간대 버스 운행 상태와 이동시간이 어떻게 달라졌는지 함께 확인했습니다. 서울시립대학교 교통공학과 졸업작품으로 진행했습니다.
 
 | 분석 조건 | 설정 |
 |---|---|
@@ -190,4 +190,4 @@ validate_release.py     공개 전 일관성 검사
 - 2017년 행정동 경계와 2019년 정류장 자료를 2023년 교통자료에 적용했습니다.
 - 환승거점 셔틀은 후속 아이디어입니다. 거점의 위치, 차량 대수, 비용이나 시간 절감 효과는 검증하지 않았습니다.
 
-주장별 근거는 [CLAIM_EVIDENCE_MAP.md](CLAIM_EVIDENCE_MAP.md), 공개 데이터 정의는 [DATA_DICTIONARY.md](docs/DATA_DICTIONARY.md)에서 확인할 수 있습니다. 다음 작업자가 확인할 항목은 [NEXT_SESSION_HANDOFF.md](docs/NEXT_SESSION_HANDOFF.md)에 남겼습니다.
+주장별 근거는 [CLAIM_EVIDENCE_MAP.md](CLAIM_EVIDENCE_MAP.md), 공개 데이터 정의는 [DATA_DICTIONARY.md](docs/DATA_DICTIONARY.md)에서 확인할 수 있습니다.

@@ -25,8 +25,8 @@ def main() -> None:
 
     required = [
         "README.md", "CLAIM_EVIDENCE_MAP.md", "RELEASE_MANIFEST.md", "docs/DATA_DICTIONARY.md", "docs/data_dictionary.csv",
-        "docs/CORRECTIONS.md", "docs/METHODOLOGY.md", "docs/FEATURE_CATALOG.md", "docs/PORTFOLIO_GUIDE.md",
-        "docs/MODEL_SELECTION.md", "docs/DATA_PROVENANCE.md", "docs/NEXT_SESSION_HANDOFF.md",
+        "docs/CORRECTIONS.md", "docs/METHODOLOGY.md", "docs/FEATURE_CATALOG.md",
+        "docs/MODEL_SELECTION.md", "docs/DATA_PROVENANCE.md",
         "outputs/tables/join_audit.csv", "outputs/tables/join_exclusion_reasons.csv",
         "outputs/reports/actual_reanalysis_summary.json", "outputs/reports/raw_source_audit.json",
         "outputs/reports/supply_recovery_stress_test.json", "outputs/reports/model_readiness.json",
