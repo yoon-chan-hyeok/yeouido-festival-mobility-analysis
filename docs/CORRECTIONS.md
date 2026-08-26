@@ -32,6 +32,12 @@
    - This excluded every `HALF_HOUR=30` bus and subway row.
    - A dedicated parser now accepts both 0 and 30, and a unit test protects the two 30-minute bins.
 
+8. Cross-source date availability
+   - The first public release described the two selected comparison dates as if they were the only locally available cross-source dates.
+   - A filename-level inventory found a 14-day common window from 2023-10-02 through 2023-10-15.
+   - The model-readiness report now separates the two loaded comparison dates from the 14 locally available dates.
+   - Predictive scores remain withheld because the common window contains one event Saturday and one normal Saturday, not because only two calendar dates exist.
+
 ## Not modified
 
 The original notebook, PDFs, presentation files, old scripts, and `seoul_new_data/outputs` remain untouched. They may still contain older comparison dates, bbox stop lists, or policy scenarios. They are not part of this release candidate and must not be uploaded as validated results.

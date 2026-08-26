@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from src.pipeline import _half_hour, _hour, build_supply_recovery_scenario
+from src.pipeline import _half_hour, _hour, build_model_readiness_report, build_supply_recovery_scenario
 
 
 class TimeParsingTest(unittest.TestCase):
@@ -45,6 +45,21 @@ class ScenarioTest(unittest.TestCase):
         rows, report = build_supply_recovery_scenario(bus, supply)
         self.assertEqual(rows[18]["stress_index_after_normal_supply_restore"], 2.0)
         self.assertTrue(report["status"].startswith("descriptive stress test"))
+
+
+class ModelReadinessTest(unittest.TestCase):
+    def test_loaded_panel_and_local_inventory_are_reported_separately(self) -> None:
+        panel_dates = ["20231007", "20231014"]
+        panel = [{"date": date} for date in panel_dates]
+        local_dates = {
+            source: {f"202310{day:02d}" for day in range(2, 16)}
+            for source in ["od", "stay", "bus", "subway", "tpss"]
+        }
+        report = build_model_readiness_report(panel, panel, panel, panel, panel, local_dates)
+        self.assertEqual(report["analysis_panel_complete_cross_source_date_count"], 2)
+        self.assertEqual(report["local_complete_cross_source_date_count"], 14)
+        self.assertEqual(report["local_complete_saturdays"], ["20231007", "20231014"])
+        self.assertEqual(report["local_normal_saturday_count"], 1)
 
 
 if __name__ == "__main__":

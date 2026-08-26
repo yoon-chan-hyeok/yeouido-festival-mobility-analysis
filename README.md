@@ -4,7 +4,7 @@
 
 **Multi-source mobility data를 결합해 행사 시간대의 demand surge, transit usage와 bus supply change를 함께 분석했습니다.**
 
-[결과 페이지](https://yoon-chan-hyeok.github.io/yeouido-festival-mobility-analysis/) · [분석 방법](docs/METHODOLOGY.md) · [변수 정의](docs/FEATURE_CATALOG.md) · [모델 선택 기준](docs/MODEL_SELECTION.md)
+[결과 페이지](https://yoon-chan-hyeok.github.io/yeouido-festival-mobility-analysis/) · [분석 방법](docs/METHODOLOGY.md) · [데이터 출처](docs/DATA_PROVENANCE.md) · [변수 정의](docs/FEATURE_CATALOG.md) · [모델 선택 기준](docs/MODEL_SELECTION.md)
 
 [![Validate public analysis](https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis/actions/workflows/validate.yml/badge.svg)](https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis/actions/workflows/validate.yml)
 
@@ -21,7 +21,7 @@
 
 2023년 10월 7일 서울세계불꽃축제를 보고 돌아오는 길에 평소보다 귀가 시간이 오래 걸렸습니다. 방문객이 많았다는 설명만으로는 버스와 지하철에 수요가 얼마나 몰렸는지, 같은 시간에 공급은 충분했는지 알기 어려웠습니다.
 
-이 프로젝트에서는 SKT OD와 체류인구, 서울시 버스·지하철 30분 이용 자료, TPSS 정차횟수와 행정동 GIS를 시간대별로 결합했습니다. 행사일의 demand surge와 bus supply change를 같은 panel에서 비교하고, 실제로 겪은 지연을 데이터로 설명해 보려 했습니다. 졸업작품으로 진행했으며 교내 데이터 분석 프로젝트 우수상을 받았습니다.
+이 프로젝트에서는 SKT OD와 체류인구, 서울시 버스·지하철 30분 이용 자료, TPSS 정차횟수와 행정동 GIS를 시간대별로 결합했습니다. 행사일의 demand surge와 bus supply change를 같은 panel에서 비교하고, 실제로 겪은 지연을 데이터로 설명해 보려 했습니다. 서울시립대학교 교통공학과 졸업작품으로 진행했습니다.
 
 | 분석 조건 | 설정 |
 |---|---|
@@ -37,7 +37,7 @@
 - 18시부터 23시까지 버스 승차 관측치는 평상시보다 142.4% 높았고 TPSS 정차횟수는 37.4% 낮았습니다.
 - 같은 시간대 여의도 출발 버스 OD의 통행량 가중평균 이동시간은 31.99분 길었습니다.
 - 정류장명과 ID 결합률, GIS 범위와 30분 집계 누락을 따로 점검했습니다.
-- 모든 data source가 함께 있는 날짜가 두 날뿐이어서 predictive score는 공개하지 않고 descriptive statistics와 explanatory scenario까지만 제시했습니다.
+- 비교 패널에 적재한 공통 날짜는 2일이며, 로컬 원자료의 공통기간은 14일입니다. 다만 행사 토요일과 정상 토요일이 각각 1일뿐이어서 predictive score는 공개하지 않았습니다.
 
 ![행사일 수요와 정차횟수 변화](outputs/figures/actual_demand_supply_change.svg)
 
@@ -50,6 +50,8 @@
 | 버스·지하철 30분 자료 | 정류장과 4개 역의 승차 관측치 |
 | TPSS | 여의도 정류장의 시간대별 정차횟수 |
 | 행정동 GIS | 여의동 안에 있는 정류장과 역의 공간 범위 |
+
+SKT 자료는 2024 AI·데이터 분석활용 빅콘테스트 데이터 분석 분야 제공 자료입니다. 버스·지하철 자료와 버스정류장 GIS는 서울시 빅데이터캠퍼스, TPSS는 서울열린데이터광장에서 제공됩니다. 공식 링크와 원자료 공개 범위는 [DATA_PROVENANCE.md](docs/DATA_PROVENANCE.md)에 정리했습니다.
 
 ```mermaid
 flowchart LR
@@ -128,9 +130,9 @@ OD 행마다 평균 이동시간과 통행량 `od_cnts`가 함께 있습니다. 
 
 [actual_hourly_feature_table.csv](data/public/actual_hourly_feature_table.csv)에는 통행량, 이동시간, 체류인구, 버스·지하철 승차 관측치와 정차횟수를 시간대별로 모았습니다. 이 표를 이용하면 추가 이동시간을 예측하는 모델을 만들 수 있습니다.
 
-하지만 모든 자료가 동시에 있는 날짜는 2023-10-07과 2023-10-14 두 날뿐입니다. 시간 행을 무작위로 나누면 같은 날짜가 학습과 평가에 섞여 성능이 실제보다 좋아 보입니다. 그래서 현재 저장소에는 예측 점수를 넣지 않았습니다.
+현재 비교용 패널에는 2023-10-07과 2023-10-14가 적재되어 있습니다. 로컬 파일을 다시 조사한 결과 다섯 자료의 공통기간은 2023-10-02부터 10-15까지 14일입니다. 하지만 이 기간의 토요일은 행사일 10월 7일과 정상일 10월 14일뿐이고, 행사일도 한 건뿐입니다.
 
-날짜가 더 확보되면 한 날짜 전체를 평가용으로 남기고, 정상 토요일 평균과 Ridge를 기준선으로 둔 뒤 비선형 모델을 비교할 계획입니다. 판단 근거와 완료 조건은 [MODEL_SELECTION.md](docs/MODEL_SELECTION.md)와 [model_readiness.json](outputs/reports/model_readiness.json)에 정리했습니다.
+14개 날짜로 날짜 단위 탐색은 가능하지만 새로운 행사에 대한 예측 성능을 검증할 수는 없습니다. 시간 행을 무작위로 나누면 같은 날짜가 학습과 평가에 섞여 성능이 실제보다 좋아 보입니다. 날짜가 더 확보되면 한 날짜 전체를 평가용으로 남기고, 정상 토요일 평균과 Ridge를 기준선으로 둔 뒤 비선형 모델을 비교할 계획입니다. 판단 근거와 완료 조건은 [MODEL_SELECTION.md](docs/MODEL_SELECTION.md)와 [model_readiness.json](outputs/reports/model_readiness.json)에 정리했습니다.
 
 ## 7. Scenario analysis: normal-supply recovery
 
@@ -183,8 +185,9 @@ validate_release.py     공개 전 일관성 검사
 
 - 행사일과 정상 토요일을 비교한 기술통계입니다. 인과효과로 해석하지 않습니다.
 - 도로통제, 우회와 무정차의 영향을 나눠 볼 운영자료는 결합하지 않았습니다.
+- 서울시의 통제·우회·집중배차 계획은 정책 맥락으로만 확인했으며, 실제 이행 여부는 TPSS 관측 정차횟수와 구분합니다.
 - 버스와 지하철 관측치는 전체 승객수가 아닙니다.
 - 2017년 행정동 경계와 2019년 정류장 자료를 2023년 교통자료에 적용했습니다.
 - 환승거점 셔틀은 후속 아이디어입니다. 거점의 위치, 차량 대수, 비용이나 시간 절감 효과는 검증하지 않았습니다.
 
-주장별 근거는 [CLAIM_EVIDENCE_MAP.md](CLAIM_EVIDENCE_MAP.md), 공개 데이터 정의는 [DATA_DICTIONARY.md](docs/DATA_DICTIONARY.md)에서 확인할 수 있습니다.
+주장별 근거는 [CLAIM_EVIDENCE_MAP.md](CLAIM_EVIDENCE_MAP.md), 공개 데이터 정의는 [DATA_DICTIONARY.md](docs/DATA_DICTIONARY.md)에서 확인할 수 있습니다. 다음 작업자가 확인할 항목은 [NEXT_SESSION_HANDOFF.md](docs/NEXT_SESSION_HANDOFF.md)에 남겼습니다.

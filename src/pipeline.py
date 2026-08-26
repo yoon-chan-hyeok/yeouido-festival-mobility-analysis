@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import csv
+import datetime as dt
 import html
 import json
 import math
 import os
+import re
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -555,26 +557,86 @@ def build_supply_recovery_scenario(bus_compare: list[dict], tpss_compare: list[d
     return rows, report
 
 
+def inventory_local_source_dates() -> dict[str, set[str]]:
+    """Inventory dated source files without loading their row-level contents."""
+    date_sets = {name: set() for name in ["od", "stay", "bus", "subway", "tpss"]}
+    raw_root = WORKSPACE_ROOT / "raw_data"
+    if raw_root.exists():
+        for path in raw_root.rglob("*.csv"):
+            for source in ["od", "stay"]:
+                match = re.fullmatch(rf"{source}_(20\d{{6}})_1\.csv", path.name, flags=re.IGNORECASE)
+                if match:
+                    date_sets[source].add(match.group(1))
+
+    seoul_root = WORKSPACE_ROOT / "seoul_new_data"
+    if seoul_root.exists():
+        patterns = {
+            "bus": re.compile(r"TBDM_TRANSIT_STAT_BUS_(20\d{6})\.csv", re.IGNORECASE),
+            "subway": re.compile(r"TBDM_TRANSIT_STAT_(?:SUBWAY|TRAIN)_(20\d{6})\.csv", re.IGNORECASE),
+        }
+        for path in seoul_root.rglob("*.csv"):
+            for source, pattern in patterns.items():
+                match = pattern.fullmatch(path.name)
+                if match:
+                    date_sets[source].add(match.group(1))
+
+    range_pattern = re.compile(
+        r"tpss_sta_route_hturn_(20\d{2})\.(\d{2})\.(\d{2})-(\d{2})\.(\d{2})\.csv",
+        re.IGNORECASE,
+    )
+    for folder in WORKSPACE_ROOT.glob("tpss_sta_route_hturn_*"):
+        if not folder.is_dir():
+            continue
+        for path in folder.glob("*.csv"):
+            match = range_pattern.fullmatch(path.name)
+            if not match:
+                continue
+            year, start_month, start_day, end_month, end_day = map(int, match.groups())
+            start = dt.date(year, start_month, start_day)
+            end_year = year + int(end_month < start_month)
+            end = dt.date(end_year, end_month, end_day)
+            current = start
+            while current <= end:
+                date_sets["tpss"].add(current.strftime("%Y%m%d"))
+                current += dt.timedelta(days=1)
+    return date_sets
+
+
 def build_model_readiness_report(
     od_panel: list[dict],
     stay_panel: list[dict],
     bus_panel: list[dict],
     subway_panel: list[dict],
     tpss_panel: list[dict],
+    local_date_sets: dict[str, set[str]] | None = None,
 ) -> dict:
-    date_sets = {
+    panel_date_sets = {
         "od": {row["date"] for row in od_panel},
         "stay": {row["date"] for row in stay_panel},
         "bus": {row["date"] for row in bus_panel},
         "subway": {row["date"] for row in subway_panel},
         "tpss": {row["date"] for row in tpss_panel},
     }
-    complete_dates = set.intersection(*date_sets.values())
+    panel_complete_dates = set.intersection(*panel_date_sets.values())
+    local_date_sets = local_date_sets or panel_date_sets
+    local_complete_dates = set.intersection(*local_date_sets.values())
+    local_saturdays = {
+        date for date in local_complete_dates
+        if dt.datetime.strptime(date, "%Y%m%d").strftime("%A") == "Saturday"
+    }
+    normal_saturdays = local_saturdays - {CONFIG["event_date"]}
     return {
-        "status": "predictive benchmark withheld because complete cross-source date groups are insufficient",
-        "available_dates_by_source": {name: sorted(values) for name, values in date_sets.items()},
-        "complete_cross_source_dates": sorted(complete_dates),
-        "complete_cross_source_date_count": len(complete_dates),
+        "status": "predictive benchmark withheld because the local common window contains only one event Saturday and one normal Saturday",
+        "analysis_panel_dates_by_source": {name: sorted(values) for name, values in panel_date_sets.items()},
+        "analysis_panel_complete_cross_source_dates": sorted(panel_complete_dates),
+        "analysis_panel_complete_cross_source_date_count": len(panel_complete_dates),
+        "local_raw_dates_by_source": {name: sorted(values) for name, values in local_date_sets.items()},
+        "local_complete_cross_source_dates": sorted(local_complete_dates),
+        "local_complete_cross_source_date_count": len(local_complete_dates),
+        "local_complete_saturdays": sorted(local_saturdays),
+        "local_normal_saturday_count": len(normal_saturdays),
+        "event_date_count": int(CONFIG["event_date"] in local_complete_dates),
+        "readiness_interpretation": "Fourteen calendar dates can support date-grouped exploratory checks, but one event date cannot establish out-of-event generalization and one normal Saturday is not a stable same-weekday benchmark.",
         "candidate_target": "Yeouido departure-bus travel-time difference in minutes",
         "candidate_features": [
             "departure bus OD count",
@@ -864,7 +926,10 @@ def main() -> dict:
         od_compare, stay_compare, bus_compare, subway_compare, tpss_compare
     )
     scenario_rows, scenario_report = build_supply_recovery_scenario(bus_compare, tpss_compare)
-    model_readiness = build_model_readiness_report(od_panel, stay_panel, bus_panel, subway_panel, tpss_panel)
+    local_source_dates = inventory_local_source_dates()
+    model_readiness = build_model_readiness_report(
+        od_panel, stay_panel, bus_panel, subway_panel, tpss_panel, local_source_dates
+    )
     table_payloads = {
         "actual_od_date_hour_panel.csv": od_panel,
         "actual_stay_date_hour_panel.csv": stay_panel,

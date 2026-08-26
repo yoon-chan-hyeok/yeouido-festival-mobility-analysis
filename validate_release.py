@@ -26,7 +26,7 @@ def main() -> None:
     required = [
         "README.md", "CLAIM_EVIDENCE_MAP.md", "RELEASE_MANIFEST.md", "docs/DATA_DICTIONARY.md", "docs/data_dictionary.csv",
         "docs/CORRECTIONS.md", "docs/METHODOLOGY.md", "docs/FEATURE_CATALOG.md", "docs/PORTFOLIO_GUIDE.md",
-        "docs/MODEL_SELECTION.md",
+        "docs/MODEL_SELECTION.md", "docs/DATA_PROVENANCE.md", "docs/NEXT_SESSION_HANDOFF.md",
         "outputs/tables/join_audit.csv", "outputs/tables/join_exclusion_reasons.csv",
         "outputs/reports/actual_reanalysis_summary.json", "outputs/reports/raw_source_audit.json",
         "outputs/reports/supply_recovery_stress_test.json", "outputs/reports/model_readiness.json",
@@ -67,9 +67,21 @@ def main() -> None:
 
     readiness = summary["model_readiness"]
     check(
-        "predictive benchmark is withheld when date groups are insufficient",
-        readiness["complete_cross_source_date_count"] == 2 and readiness["status"].startswith("predictive benchmark withheld"),
-        str(readiness["complete_cross_source_dates"]),
+        "analysis panel and local raw-date inventory are distinguished",
+        readiness["analysis_panel_complete_cross_source_date_count"] == 2
+        and readiness["local_complete_cross_source_date_count"] == 14
+        and readiness["local_complete_saturdays"] == ["20231007", "20231014"],
+        str({
+            "panel": readiness["analysis_panel_complete_cross_source_dates"],
+            "local": readiness["local_complete_cross_source_dates"],
+        }),
+    )
+    check(
+        "predictive benchmark is withheld for event-generalization limits",
+        readiness["event_date_count"] == 1
+        and readiness["local_normal_saturday_count"] == 1
+        and readiness["status"].startswith("predictive benchmark withheld"),
+        readiness["status"],
     )
 
     link_targets = re.findall(r"\]\(([^)]+)\)", readme)
