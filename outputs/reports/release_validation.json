@@ -77,7 +77,7 @@
       "detail": "[]"
     },
     {
-      "check": "removed evaluation claims are absent",
+      "check": "unverified model-performance claims are absent",
       "passed": true,
       "detail": "[]"
     },

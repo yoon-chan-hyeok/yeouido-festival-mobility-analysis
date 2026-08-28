@@ -2,13 +2,13 @@
 
 # Yeouido Festival Mobility Analysis
 
-**여의도 불꽃축제 뒤 길어진 귀가 시간을 수요 증가와 대중교통 운행 변화로 나눠 분석했습니다.**
+**여의도 불꽃축제 뒤 길어진 귀가를 수요·운행·이동시간으로 진단하고, 외곽 환승거점 셔틀을 운영 가설로 제안했습니다.**
 
 [결과 페이지](https://yoon-chan-hyeok.github.io/yeouido-festival-mobility-analysis/) · [분석 방법](docs/METHODOLOGY.md) · [데이터 출처](docs/DATA_PROVENANCE.md) · [변수 정의](docs/FEATURE_CATALOG.md) · [모델 선택 기준](docs/MODEL_SELECTION.md)
 
 [![Validate public analysis](https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis/actions/workflows/validate.yml/badge.svg)](https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis/actions/workflows/validate.yml)
 
-[Problem](#1-problem-and-analytical-scope) · [Design](#2-design-rationale) · [Method](#3-method-multi-source-data-integration) · [Results](#4-results-demand-supply-and-travel-time) · [Audit](#5-data-quality-audit) · [Quick start](#8-quick-start)
+[Problem](#1-problem-and-analytical-scope) · [Design](#2-design-rationale) · [Method](#3-method-multi-source-data-integration) · [Results](#4-results-demand-supply-and-travel-time) · [Decision](#5-from-diagnosis-to-an-operating-hypothesis) · [Audit](#6-data-quality-audit) · [Quick start](#8-quick-start)
 
 </div>
 
@@ -21,7 +21,9 @@
 
 2023년 10월 7일 서울세계불꽃축제를 보고 돌아오는 길에 평소보다 귀가 시간이 오래 걸렸습니다. 방문객이 많았다는 설명만으로는 버스와 지하철에 수요가 얼마나 몰렸는지, 같은 시간에 공급은 충분했는지 알기 어려웠습니다.
 
-SKT OD와 체류인구, 서울시 버스·지하철 30분 이용 자료, TPSS 정차횟수와 행정동 GIS를 시간대별로 결합했습니다. 행사 뒤 수요가 얼마나 늘었는지뿐 아니라, 같은 시간대 버스 운행 상태와 이동시간이 어떻게 달라졌는지 함께 확인했습니다. 서울시립대학교 교통공학과 졸업작품으로 진행했습니다.
+SKT OD와 체류인구, 서울시 버스·지하철 30분 이용 자료, TPSS 정차횟수와 행정동 GIS를 시간대별로 결합했습니다. 행사 뒤 수요가 얼마나 늘었는지뿐 아니라, 같은 시간대 버스 운행 상태와 이동시간이 어떻게 달라졌는지 함께 확인했습니다.
+
+발표에서는 이 진단을 바탕으로 여의도 안에 버스를 더 넣는 방안보다, 귀가 수요를 공덕·당산·노량진의 외곽 환승거점으로 옮기는 셔틀 운영안을 제안했습니다. 이 저장소에서는 분석으로 확인한 결과와 아직 검증하지 못한 운영 가설을 구분해 공개합니다. 서울시립대학교 교통공학과 졸업작품으로 진행했습니다.
 
 | 분석 조건 | 설정 |
 |---|---|
@@ -60,7 +62,8 @@ flowchart LR
     C --> D["정류장명과 ID<br/>결합 확인"]
     D --> E["날짜·시간대별 집계"]
     E --> F["수요·공급·이동시간 비교"]
-    F --> G["공급 회복 가정"]
+    F --> G["정차횟수 회복<br/>stress test"]
+    G --> H["외곽 환승거점<br/>셔틀 운영 가설"]
 ```
 
 행사일은 토요일이므로 비교군도 토요일로 맞췄습니다.
@@ -91,7 +94,24 @@ flowchart LR
 
 행사일에는 이동과 대중교통 이용 수요가 크게 늘었지만 버스 정차횟수는 줄었습니다. 이 결과만으로 개별 원인이나 정책 효과를 확정할 수는 없습니다. 다만 귀가 지연을 수요 증가 하나로만 설명하기보다, 같은 시간대의 공급 변화도 함께 봐야 한다는 점은 확인할 수 있었습니다.
 
-## 5. Data quality audit
+## 5. From diagnosis to an operating hypothesis
+
+외곽 환승거점 셔틀은 수요·운행 불균형을 확인한 뒤 제안한 운영안입니다. 행사 종료 뒤 여의도 안에서 수요가 급증한 반면, 같은 시간대 TPSS 정차횟수는 감소했습니다. 먼저 정차횟수만 평상시 수준으로 돌아온다고 가정해 버스 이용 부담이 얼마나 남는지 계산했습니다.
+
+```text
+수요/운행 부담 = 버스 승차 관측치 / TPSS 정차횟수
+부담 지수 = 행사일 부담 / 정상 토요일 부담
+```
+
+18시부터 23시까지 관측된 부담 지수는 평상시의 3.87배였습니다. 정차횟수를 평상시 수준으로 바꿔도 2.42배가 남았습니다. 이 결과는 증차 효과를 예측한 값이 아니라, 행사일 수요가 그대로라면 관측 정차횟수의 회복만으로 평상시 부담까지 돌아가기 어렵다는 산술적 점검입니다.
+
+![공급 회복 시나리오](outputs/figures/actual_supply_recovery_stress_test.svg)
+
+이 점검을 바탕으로 발표에서는 저혼잡 구간에 셔틀을 미리 대기시키고 공덕·당산·노량진역까지 수요를 옮기는 방안을 제안했습니다. 귀가 수요가 집중되는 위치를 바꾸고 기존 철도망으로 분산하는 데 초점을 둔 운영안입니다.
+
+거점 위치, 차량 100대, 3회차 운행, 수송인원, 비용과 시간 절감 수치는 현재 공개 분석으로 검증하지 않았습니다. 셔틀의 현재 위치는 수요·운행 불균형 진단에서 도출한 운영 가설이며, 정책 효과 검증은 후속 과제입니다.
+
+## 6. Data quality audit
 
 ### 비교 날짜를 바로잡았습니다
 
@@ -126,26 +146,15 @@ OD 행마다 평균 이동시간과 통행량 `od_cnts`가 함께 있습니다. 
 
 시와 30분 값을 읽는 함수를 분리하고 버스와 지하철 자료에 `0`, `30` 구간이 모두 들어오는지 테스트했습니다. 공개 수치도 원자료에서 다시 계산했으며 수정 과정은 [CORRECTIONS.md](docs/CORRECTIONS.md)에 기록했습니다.
 
-## 6. Model readiness: predictive score를 공개하지 않은 이유
+## 7. Model readiness: predictive score를 공개하지 않은 이유
+
+초기 발표에서는 초과 교통량이 늘 때 예측 지체가 감소하지 않도록 Isotonic Regression을 적용했습니다. 증가 폭은 데이터에 맡기면서 교통 지체의 방향성은 지키려는 선택이었습니다. 하지만 당시 비교군에는 행사일과 다른 요일이 섞여 있었고, 발표한 점수도 새로운 행사에 대한 일반화 성능을 보여주지 못했습니다. 기존 모델은 [이전 단계 저장소](https://github.com/yoon-chan-hyeok/event-traffic-delay-analysis)에 수정 기록으로만 남겼습니다.
 
 [actual_hourly_feature_table.csv](data/public/actual_hourly_feature_table.csv)에는 통행량, 이동시간, 체류인구, 버스·지하철 승차 관측치와 정차횟수를 시간대별로 모았습니다. 이 표를 이용하면 추가 이동시간을 예측하는 모델을 만들 수 있습니다.
 
 현재 비교용 패널에는 2023-10-07과 2023-10-14가 적재되어 있습니다. 로컬 파일을 다시 조사한 결과 다섯 자료의 공통기간은 2023-10-02부터 10-15까지 14일입니다. 하지만 이 기간의 토요일은 행사일 10월 7일과 정상일 10월 14일뿐이고, 행사일도 한 건뿐입니다.
 
 14개 날짜로 날짜 단위 탐색은 가능하지만 새로운 행사에 대한 예측 성능을 검증할 수는 없습니다. 시간 행을 무작위로 나누면 같은 날짜가 학습과 평가에 섞여 성능이 실제보다 좋아 보입니다. 날짜가 더 확보되면 한 날짜 전체를 평가용으로 남기고, 정상 토요일 평균과 Ridge를 기준선으로 둔 뒤 비선형 모델을 비교할 계획입니다. 판단 근거와 완료 조건은 [MODEL_SELECTION.md](docs/MODEL_SELECTION.md)와 [model_readiness.json](outputs/reports/model_readiness.json)에 정리했습니다.
-
-## 7. Scenario analysis: normal-supply recovery
-
-버스 승차 관측치를 수요, TPSS 정차횟수를 공급 지표로 두고 시간대별 부담을 계산했습니다.
-
-```text
-수요/공급 부담 = 버스 승차 관측치 / TPSS 정차횟수
-부담 지수 = 행사일 부담 / 정상 토요일 부담
-```
-
-18시부터 23시까지의 관측 부담 지수는 평상시의 3.87배였습니다. 정차횟수를 평상시 수준으로 바꿔 계산해도 2.42배가 남았습니다. 이 계산은 수요가 그대로라는 가정 아래 정차횟수만 바꾼 설명적 시나리오입니다. 실제 버스 대수, 좌석 공급, 최적 배차나 정책 효과를 뜻하지 않습니다.
-
-![공급 회복 시나리오](outputs/figures/actual_supply_recovery_stress_test.svg)
 
 ## 8. Quick start
 
@@ -188,6 +197,6 @@ validate_release.py     공개 전 일관성 검사
 - 서울시의 통제·우회·집중배차 계획은 정책 맥락으로만 확인했으며, 실제 이행 여부는 TPSS 관측 정차횟수와 구분합니다.
 - 버스와 지하철 관측치는 전체 승객수가 아닙니다.
 - 2017년 행정동 경계와 2019년 정류장 자료를 2023년 교통자료에 적용했습니다.
-- 환승거점 셔틀은 후속 아이디어입니다. 거점의 위치, 차량 대수, 비용이나 시간 절감 효과는 검증하지 않았습니다.
+- 환승거점 셔틀은 분석에서 도출한 운영 가설입니다. 거점의 위치, 차량 대수, 비용이나 시간 절감 효과는 검증하지 않았습니다.
 
 주장별 근거는 [CLAIM_EVIDENCE_MAP.md](CLAIM_EVIDENCE_MAP.md), 공개 데이터 정의는 [DATA_DICTIONARY.md](docs/DATA_DICTIONARY.md)에서 확인할 수 있습니다.

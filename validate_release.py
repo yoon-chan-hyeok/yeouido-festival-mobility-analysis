@@ -99,7 +99,7 @@ def main() -> None:
 
     text_extensions = {".md", ".py", ".json", ".html", ".csv", ".txt"}
     text_files = [path for path in ROOT.rglob("*") if path.is_file() and path.suffix.lower() in text_extensions and "_audit" not in path.parts]
-    forbidden_evaluation_terms = ["iso" + "tonic reg" + "ression", "mean absolute " + "error", "r-" + "squared", "r" + "²"]
+    forbidden_evaluation_terms = ["mean absolute " + "error", "r-" + "squared", "r" + "²"]
     forbidden_legacy_headlines = ["184" + ",732", "53" + ",214", "13" + ",500명", "4" + ",000만원"]
     term_hits = []
     path_hits = []
@@ -113,7 +113,7 @@ def main() -> None:
             path_hits.append(str(path.relative_to(ROOT)))
         if any(value in content for value in forbidden_legacy_headlines):
             legacy_hits.append(str(path.relative_to(ROOT)))
-    check("removed evaluation claims are absent", not term_hits, str(term_hits))
+    check("unverified model-performance claims are absent", not term_hits, str(term_hits))
     check("personal absolute paths are absent", not path_hits, str(path_hits))
     check("legacy presentation headline values are absent", not legacy_hits, str(legacy_hits))
 
