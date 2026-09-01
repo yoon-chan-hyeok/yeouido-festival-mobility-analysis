@@ -97,6 +97,8 @@ flowchart LR
 | 여의도 GIS 정류장 TPSS 정차횟수 | 5,973 | 9,544.7 | -37.4% |
 | 여의도 체류인구 시간대 관측치 합계 | 1,078,516 | 389,436.8 | +689,079.2 |
 
+표의 수치는 공개 집계본을 다시 계산한 [actual_reanalysis_summary.json](outputs/reports/actual_reanalysis_summary.json)과 연결됩니다. 각 주장에 사용한 표와 그림은 [CLAIM_EVIDENCE_MAP.md](CLAIM_EVIDENCE_MAP.md)에서 확인할 수 있습니다.
+
 버스와 지하철 수치는 1회용 카드 이용 관측치입니다. 전체 승객수로 환산하지 않고 같은 자료 안에서 행사일과 평상시의 차이만 비교했습니다. 체류인구 합계도 고유 방문자 수가 아니라 시간대별 관측치의 합입니다.
 
 <p align="center">
@@ -116,6 +118,8 @@ flowchart LR
 ```
 
 18시부터 23시까지 관측된 부담 지수는 평상시의 3.87배였습니다. 정차횟수를 평상시 수준으로 바꿔도 2.42배가 남았습니다. 이 결과는 증차 효과를 예측한 값이 아니라, 행사일 수요가 그대로라면 관측 정차횟수의 회복만으로 평상시 부담까지 돌아가기 어렵다는 산술적 점검입니다.
+
+계산식과 입력값은 [supply_recovery_stress_test.json](outputs/reports/supply_recovery_stress_test.json)에 함께 공개했습니다.
 
 ![공급 회복 시나리오](outputs/figures/actual_supply_recovery_stress_test.svg)
 
