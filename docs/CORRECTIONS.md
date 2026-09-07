@@ -16,8 +16,11 @@
    - Duplicate names are restricted to area aggregates; coordinate-level attribution is excluded.
    - TPSS uses exact station IDs only.
 
-4. Total-ridership wording
-   - Bus/subway 30-minute values are labeled one-time-card observations, not total boardings for all fare media.
+4. Transit-card source definition, corrected on 2026-09-07
+   - The previous release incorrectly restricted both bus and subway aggregates to single-use cards after misreading the parent dataset title.
+   - The provider describes the 30-minute datasets as aggregates of transit transaction records. Its parent dataset lists general transit transactions and subway single-use-ticket records separately.
+   - Documentation now describes boarding counts from transit-card transactions within the selected station scope. These counts are not unique riders or total festival visitors.
+   - This correction changes the source description, not the data, calculations, or reported values. Official links are in `DATA_PROVENANCE.md`.
 
 5. Stay-population wording
    - Sums across hours are labeled time-indexed observation sums, not unique visitors.

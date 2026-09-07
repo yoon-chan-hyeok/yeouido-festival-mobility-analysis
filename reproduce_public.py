@@ -10,6 +10,7 @@ from src.pipeline import (
     TABLE_DIR,
     build_supply_recovery_scenario,
     make_figures,
+    write_portfolio_page,
 )
 
 
@@ -38,6 +39,8 @@ def main() -> dict:
     write_csv(TABLE_DIR / "actual_supply_recovery_stress_test.csv", scenario_rows)
     write_json(REPORT_DIR / "supply_recovery_stress_test.json", scenario_report)
     make_figures(od, bus, subway, tpss, scenario_rows)
+    summary = json.loads((REPORT_DIR / "actual_reanalysis_summary.json").read_text(encoding="utf-8"))
+    write_portfolio_page(summary, scenario_report)
     print(json.dumps(scenario_report, ensure_ascii=False, indent=2))
     return scenario_report
 

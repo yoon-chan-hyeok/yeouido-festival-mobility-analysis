@@ -751,62 +751,9 @@ def make_gis_scope_figure(polygons: list[list[tuple[float, float]]], gis_stops: 
 
 
 def write_portfolio_page(summary: dict, scenario: dict) -> None:
-    od = summary["od_departure_bus_event_window"]
-    bus = summary["bus_boardings"]["event_window_18_23"]
-    subway = summary["subway_boardings"]["event_window_18_23"]
-    tpss = summary["tpss_supply"]["event_window_18_23"]
-    html_text = f"""<!doctype html>
-<html lang="ko">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>여의도 불꽃축제 교통 분석</title>
-  <style>
-    :root {{ --ink:#17231f; --muted:#627069; --paper:#f7f1e5; --card:#fffdf8; --green:#185c49; --orange:#e85d3f; --line:#d8d0c3; }}
-    * {{ box-sizing:border-box; }} body {{ margin:0; color:var(--ink); background:var(--paper); font-family:"Noto Sans KR","Malgun Gothic",sans-serif; line-height:1.65; }}
-    header {{ padding:80px max(6vw,28px) 64px; background:radial-gradient(circle at 80% 20%,#f4b15c66,transparent 26%),linear-gradient(135deg,#102c24,#1e604e); color:white; }}
-    header p {{ max-width:760px; color:#d9ebe4; }} h1 {{ margin:0 0 18px; max-width:900px; font-family:Georgia,"Nanum Myeongjo",serif; font-size:clamp(38px,6vw,74px); line-height:1.08; }}
-    main {{ width:min(1160px,90vw); margin:0 auto; padding:56px 0 90px; }} h2 {{ margin-top:64px; font-size:30px; }}
-    .metrics {{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:-88px; position:relative; }} .metric,.card {{ background:var(--card); border:1px solid var(--line); box-shadow:0 10px 30px #23372f18; }}
-    .metric {{ padding:22px; min-height:160px; }} .metric b {{ display:block; color:var(--orange); font-size:30px; margin:8px 0; }} .metric small,.note {{ color:var(--muted); }}
-    .grid {{ display:grid; grid-template-columns:repeat(2,1fr); gap:22px; }} .card {{ padding:20px; }} .card img {{ width:100%; display:block; }}
-    table {{ width:100%; border-collapse:collapse; background:var(--card); }} th,td {{ padding:13px; text-align:left; border-bottom:1px solid var(--line); }} th {{ background:#e5efe9; }}
-    code {{ background:#e9e1d4; padding:2px 5px; }} a {{ color:var(--green); }}
-    @media(max-width:800px) {{ .metrics,.grid {{ grid-template-columns:1fr; }} .metrics {{ margin-top:-36px; }} header {{ padding-top:55px; }} }}
-  </style>
-</head>
-<body>
-<header><p>2023-10-07 서울세계불꽃축제 사례</p><h1>불꽃축제 뒤 길어진 귀가 시간, 수요와 운행 변화를 함께 봤습니다</h1><p>SKT OD·체류인구, 서울시 버스·지하철 30분 관측치, TPSS 정차횟수와 행정동 GIS를 결합하고 행사일과 같은 요일의 자료를 비교했습니다.</p></header>
-<main>
-  <section class="metrics">
-    <div class="metric"><small>버스 OD 이동시간</small><b>+{od['difference_minutes']:.2f}분</b><span>18~23시 여의도 출발, OD 건수 가중평균</span></div>
-    <div class="metric"><small>버스 승차 관측치</small><b>+{bus['target_minus_normal']/bus['normal_avg']*100:.1f}%</b><span>{bus['target']:.0f} 대 {bus['normal_avg']:.1f}</span></div>
-    <div class="metric"><small>지하철 승차 관측치</small><b>+{subway['target_minus_normal']/subway['normal_avg']*100:.1f}%</b><span>{subway['target']:.0f} 대 {subway['normal_avg']:.1f}</span></div>
-    <div class="metric"><small>TPSS 정차횟수</small><b>{tpss['target_minus_normal']/tpss['normal_avg']*100:.1f}%</b><span>{tpss['target']:.0f} 대 {tpss['normal_avg']:.1f}</span></div>
-  </section>
-  <h2>분석 질문</h2><p>불꽃축제 뒤 길어진 귀가 시간을 방문객 증가만으로 설명할 수 있을까? 행사 종료 전후의 수요 관측치, 버스 정차횟수와 이동시간을 같은 시간대에 놓고 비교했습니다.</p>
-  <h2>주요 결과</h2><div class="grid">
-    <div class="card"><img src="outputs/figures/actual_od_bus_duration.svg" alt="버스 이동시간 비교"></div>
-    <div class="card"><img src="outputs/figures/actual_demand_supply_change.svg" alt="수요와 정차횟수 변화"></div>
-    <div class="card"><img src="outputs/figures/actual_bus_boardings.svg" alt="버스 승차 관측치"></div>
-    <div class="card"><img src="outputs/figures/actual_subway_boardings.svg" alt="지하철 승차 관측치"></div>
-  </div>
-  <h2>공급 회복 스트레스 테스트</h2>
-  <table><tr><th>18~23시 지표</th><th>값</th></tr>
-    <tr><td>현재 행사일 수요/공급 부담 ÷ 평상시 부담</td><td>{scenario['current_stress_index']:.2f}배</td></tr>
-    <tr><td>정차횟수를 평상시 수준으로 회복한 뒤 부담</td><td>{scenario['stress_index_after_normal_supply_restore']:.2f}배</td></tr>
-    <tr><td>평상시 정차횟수까지의 차이</td><td>{scenario['supply_gap_to_normal']:.1f} 정차횟수 지표</td></tr>
-  </table>
-  <p class="note">이 계산은 관측된 정차횟수 지표를 사용한 설명적 스트레스 테스트입니다. 실제 버스 대수, 최적 배차, 정책의 인과효과를 뜻하지 않습니다.</p>
-  <h2>진단에서 운영 가설로</h2>
-  <p>정차횟수를 평상시 수준으로 회복해도 행사일의 수요 부담이 남는다는 점검을 바탕으로, 발표에서는 공덕·당산·노량진역까지 외곽 환승거점 셔틀을 운행하는 방안을 제안했습니다. 귀가 수요가 모이는 위치를 바꾸고 기존 철도망으로 분산하는 구상입니다.</p>
-  <p class="note">거점 위치, 차량 대수, 수송인원, 비용과 시간 절감 효과는 현재 공개 분석으로 검증하지 않았습니다. 셔틀의 현재 위치는 운영 가설이며, 정책 효과 검증은 후속 과제입니다.</p>
-  <h2>GIS 범위와 결합 감사</h2><div class="card"><img src="outputs/figures/actual_gis_scope.svg" alt="여의도 GIS 분석 범위"></div>
-  <p>행정동 경계 내부의 2019년 버스정류장 59개를 추출했습니다. 버스 30분 자료는 정규화한 정류장명, TPSS는 GIS 정류장 ID의 정확 일치만 사용했습니다. 누락과 중복은 <a href="outputs/tables/join_audit.csv">join audit</a>에 남겼습니다.</p>
-  <h2>재현</h2><p><code>python run_all.py</code> 이후 <code>python validate_release.py</code>를 실행합니다. 원시자료는 라이선스와 개인정보 고려로 포함하지 않았고, 공개 폴더에는 날짜·시간 집계본만 제공합니다.</p>
-  <p><a href="https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis">GitHub 저장소</a> · <a href="https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis/blob/main/docs/METHODOLOGY.md">방법론</a> · <a href="https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis/blob/main/docs/MODEL_SELECTION.md">모델 선택 기준</a></p>
-</main></body></html>"""
-    (RELEASE_ROOT / "index.html").write_text(html_text, encoding="utf-8")
+    from .portfolio_page import render_page
+
+    (RELEASE_ROOT / "index.html").write_text(render_page(summary, scenario), encoding="utf-8")
 
 
 def make_figures(od_compare, bus_compare, subway_compare, tpss_compare, scenario_rows) -> None:

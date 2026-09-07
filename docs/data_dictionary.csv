@@ -2,8 +2,8 @@ source,observation_unit,time_unit,spatial_unit,primary_key_or_join_key,release_u
 SKT_OD,"OD-demographic-mode-purpose row",date and hour,administrative-dong pair,"origin_hdong_cd + dest_hdong_cd + date/time + modal + demographic/purpose",weighted duration and traffic
 SKT_stay,"dong-demographic-purpose row",hour,administrative dong,"hdong_cd + date + time + demographic/purpose",hourly Yeouido stay count
 KIKmix,administrative/legal-dong mapping,2023-07-01 reference,nationwide dong,administrative dong code,verify Yeouido code
-Bus_30min,station half-hour count,30 minutes,Seoul bus station,"STATION_ID; exact normalized name to GIS scope",one-time-card relative boarding comparison
-Subway_30min,line-station half-hour count,30 minutes,Seoul subway station,"STATION_ID + LINE_NM; configured station name",one-time-card relative boarding comparison
+Bus_30min,station half-hour count,30 minutes,Seoul bus station,"STATION_ID; exact normalized name to GIS scope",relative boarding comparison from transit-card transaction aggregates
+Subway_30min,line-station half-hour count,30 minutes,Seoul subway station,"STATION_ID + LINE_NM; configured station name",relative boarding comparison from transit-card transaction aggregates
 TPSS,date-route-station row,hourly wide,Seoul bus stop-route,"date + route ID + station ID; exact station-ID join",stop-count supply comparison
 Bus_stop_GIS,bus-stop point,2019 snapshot,EPSG:5186 point,STN_IDN,Yeouido point-in-polygon scope
 Administrative_dong_GIS,administrative-dong polygon,2017 snapshot,EPSG:5186 polygon,"adm_dr_cd + adm_dr_nm",Yeouido boundary

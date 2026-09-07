@@ -2,11 +2,12 @@
 
 ## Included code
 
-- `run_all.py`: entry point
-- `reproduce_public.py`: regenerate core figures and stress test from public aggregates only
+- `run_all.py`: full pipeline with local raw data
+- `reproduce_public.py`: regenerate figures, stress test, and project page from included aggregates and summary
 - `src/io_utils.py`: CSV, DBF, and shapefile readers
 - `src/spatial.py`: Yeouido polygon and bus-stop extraction
 - `src/pipeline.py`: source loading, joining, auditing, comparison, and SVG generation
+- `src/portfolio_page.py`: shared HTML renderer for the public and raw-data pipelines
 - `validate_release.py`: release consistency checks
 - `tests/test_pipeline.py`: half-hour parser and scenario regression tests
 
@@ -51,6 +52,8 @@
 
 ## Reproduction contract
 
-`reproduce_public.py` requires only the included `data/public` aggregates. The full `run_all.py` pipeline expects the original workspace data to remain one directory above this folder. A clean full rebuild is performed with `FORCE_REBUILD=1`. The pipeline writes only inside `github_release_candidate`.
+`reproduce_public.py` uses the included `data/public` aggregates and `outputs/reports/actual_reanalysis_summary.json`. It requires no raw files or external Python packages. The full `run_all.py` pipeline expects the original workspace data one directory above the repository. A clean full rebuild is performed with `FORCE_REBUILD=1`. Both pipelines write outputs inside this repository.
+
+Bus and subway boarding values come from transit-card transaction aggregates in the selected station scope. The provider's source definitions and the correction of an earlier fare-media description are documented in `docs/DATA_PROVENANCE.md` and `docs/CORRECTIONS.md`.
 
 The supply-recovery stress test is generated from corrected bus and TPSS aggregates. It is included because its assumptions and formulas are explicit; legacy fleet-size, shuttle-capacity, cost, and benefit calculations remain excluded.

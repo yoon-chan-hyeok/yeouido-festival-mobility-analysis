@@ -7,8 +7,8 @@
 | SKT OD | `../raw_data/od_*/od_YYYYMMDD_1.csv` | origin-destination, demographic, mode, purpose combination | date and start/end hour | administrative dong OD pair | `origin_hdong_cd`, `dest_hdong_cd`, `date`, `start_time`, `end_time`, `modal` plus demographic/purpose fields | Yeouido arrival/departure traffic and `od_cnts`-weighted duration |
 | SKT stay population | `../raw_data/stay_*/stay_YYYYMMDD_1.csv` | dong, hour, demographic, purpose combination | hourly | administrative dong | `hdong_cd`, `date`, `time`, `gender`, `age`, `purpose` | Yeouido hourly stay-count sum |
 | Administrative-code reference | `../데이터분석 분야_데이터정의서/KIKmix_20230701.csv` | administrative-code to legal-dong mapping row | reference date 2023-07-01 | nationwide dong | `행정동코드`, `법정동코드` | verify Yeouido code `1156054000` and Seoul scope |
-| Bus 30-minute usage | `../seoul_new_data/서울시 버스 30분 이용통계/.../202310/TBDM_TRANSIT_STAT_BUS_YYYYMMDD.csv` | station and half-hour count row | 30 minutes | Seoul bus station | source `STATION_ID`, normalized `STATION_NM`; GIS area selection uses exact normalized name | event/normal boarding comparison; source is treated as one-time-card observation, not total ridership |
-| Subway 30-minute usage | `../seoul_new_data/서울시 지하철 30분단위 이용통계/.../202310/TBDM_TRANSIT_STAT_SUBWAY_YYYYMMDD.csv` | line, station and half-hour count row | 30 minutes | Seoul subway station | `STATION_ID`, `LINE_NM`, normalized `STATION_NM` | four configured Yeouido station boarding comparison; one-time-card observation |
+| Bus 30-minute usage | `../seoul_new_data/서울시 버스 30분 이용통계/.../202310/TBDM_TRANSIT_STAT_BUS_YYYYMMDD.csv` | station and half-hour count row | 30 minutes | Seoul bus station | source `STATION_ID`, normalized `STATION_NM`; GIS area selection uses exact normalized name | event/normal comparison of boarding counts aggregated from transit-card transactions within the selected station scope |
+| Subway 30-minute usage | `../seoul_new_data/서울시 지하철 30분단위 이용통계/.../202310/TBDM_TRANSIT_STAT_SUBWAY_YYYYMMDD.csv` | line, station and half-hour count row | 30 minutes | Seoul subway station | `STATION_ID`, `LINE_NM`, normalized `STATION_NM` | transit-card transaction boarding aggregates at four configured Yeouido stations |
 | TPSS stop operation | `../tpss_sta_route_hturn_202310/*.csv` | date, route, station row with hourly wide columns | hourly | bus stop-route | `기준_날짜`, `노선_ID`, `정류장_ID` | sum stop counts only for exact GIS stop-ID matches |
 | Bus-stop GIS | `../seoul_new_data/B405.../2019/TB_E_BUSSTOP_2019.{shp,dbf}` | bus-stop point | static 2019 snapshot | point in EPSG:5186 | `STN_IDN`; name fallback is used only for area-level bus counts | point-in-polygon extraction and TPSS exact-ID scope |
 | Administrative-dong GIS | `../seoul_new_data/서울시 2017 행정동 지역경계 shp/...epsg5186.{shp,dbf}` | administrative-dong polygon | static 2017 snapshot | polygon in EPSG:5186 | `adm_dr_cd`, `adm_dr_nm` | define Yeouido polygon and select bus stops |
@@ -31,7 +31,7 @@
 
 | Group | Dates | Use |
 |---|---|---|
-| Event | 2023-10-07 | fully held-out event Saturday |
+| Event | 2023-10-07 | event Saturday, excluded from normal-day controls |
 | Primary OD/stay controls | 2023-09-02, 09-09, 09-16, 09-23, 10-14 | normal Saturdays excluding Chuseok period |
 | Sensitivity OD/stay controls | primary controls plus 2023-09-30 | holiday-period robustness only |
 | October transit controls | 2023-10-14, 10-21, 10-28 | bus, subway, TPSS normal Saturdays |
@@ -46,6 +46,8 @@
 - The 2017 dong boundary and 2019 bus-stop snapshot are older than the 2023 transport observations. This temporal mismatch is retained as a limitation.
 
 ## Public derived tables
+
+Transit boarding counts refer to recorded use within the selected station scope, not unique riders or total festival visitors. The provider distinguishes transit transaction records from a separate subway single-use-ticket dataset; see [data provenance](DATA_PROVENANCE.md).
 
 | File | Unit | Purpose |
 |---|---|---|

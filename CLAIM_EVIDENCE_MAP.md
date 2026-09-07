@@ -4,8 +4,8 @@
 |---|---|---|---|---|
 | Event and control dates are the same weekday | verified | `config.json`, `release_validation.json` | `validate_release.py` | 2023-09-30 is sensitivity-only because of the holiday period |
 | Yeouido departure bus travel time increased during 18-23 | verified descriptive result | `actual_od_event_vs_saturday.csv` | `load_od_panel`, `compare_od` | descriptive comparison, not causal effect; waiting time is not separately observed |
-| Event-window bus boarding observations increased | verified descriptive result | `actual_bus_boarding_event_vs_saturday.csv` | `load_bus_panel`, `compare_sum` | one-time-card observations; exact-name Yeouido GIS scope |
-| Event-window subway boarding observations increased | verified descriptive result | `actual_subway_boarding_event_vs_saturday.csv` | `load_subway_panel`, `compare_sum` | configured four-station scope; one-time-card observations |
+| Event-window bus boarding observations increased | verified descriptive result | `actual_bus_boarding_event_vs_saturday.csv` | `load_bus_panel`, `compare_sum` | transit-card transaction aggregates; exact-name Yeouido GIS scope; counts of use, not unique riders |
+| Event-window subway boarding observations increased | verified descriptive result | `actual_subway_boarding_event_vs_saturday.csv` | `load_subway_panel`, `compare_sum` | transit-card transaction aggregates in the configured four-station scope; not unique riders |
 | Event-window TPSS stop counts decreased | verified descriptive result | `actual_tpss_event_vs_saturday.csv` | `load_tpss_panel`, `compare_sum` | exact GIS stop-ID subset; cause is not identified |
 | Event-window stay population was higher | verified descriptive result | `actual_stay_event_vs_saturday.csv` | `load_stay_panel`, `compare_sum` | hourly observation sum, not unique people |
 | Demand increased while stop-count supply decreased | supported as concurrent descriptive pattern | `actual_demand_supply_change.svg`, bus/TPSS CSVs | `make_figures` | different source definitions; not a causal mechanism proof |
