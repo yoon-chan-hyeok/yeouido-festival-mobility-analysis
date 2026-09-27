@@ -80,6 +80,7 @@ def render_page(summary: dict, scenario: dict) -> str:
   </section>
   <section>
     <h2>외곽 환승거점으로 귀가 수요 분산</h2>
+    <p>혼잡한 여의도 내부에 버스만 더 투입하면 차량 정체를 키울 수 있다고 봤습니다. 정규 노선 전체를 늘리기보다 짧은 구간을 반복 운행해, 귀가 수요를 혼잡 구역 밖의 철도망으로 연결하는 방안을 검토했습니다.</p>
     <p>졸업작품 발표에서는 여의도에 집중된 수요를 당산·공덕·노량진역으로 옮기는 셔틀을 제안했습니다. 여의도 혼잡 구역 밖의 철도 환승역을 고르고, 귀가 방향과 셔틀 반복 운행 거리를 함께 고려했습니다.</p>
     <div class="flow" aria-label="셔틀 운영 개념도">
       <span>여의도 귀가 수요</span><b aria-hidden="true">→</b><span>사전 대기 셔틀</span><b aria-hidden="true">→</b><span class="hubs">당산 · 공덕 · 노량진</span><b aria-hidden="true">→</b><span>철도 환승</span>
